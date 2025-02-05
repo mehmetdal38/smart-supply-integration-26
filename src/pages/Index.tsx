@@ -226,7 +226,7 @@ const ProductCatalog = () => {
     <div className="min-h-screen bg-gray-50">
       <div className="bg-white shadow">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex justify-between items-center">
+          <div className="flex flex-col">
             <div className="flex items-center">
               <img 
                 src="https://s.tmimgcdn.com/scr/800x500/300400/yaratici-restoran-logo-tasarimi_300465-original.jpg" 
@@ -235,7 +235,7 @@ const ProductCatalog = () => {
               />
               <h1 className="ml-4 text-2xl font-bold text-gray-900">Restoran Tedarik</h1>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center justify-center gap-4 mt-4">
               <Messages />
               <PastOrders />
               <Support />
@@ -417,7 +417,7 @@ const ProductCatalog = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
           {filteredProducts.map(product => (
             <Card key={product.id} className="flex flex-col">
               <div className="aspect-square relative bg-gray-100">
