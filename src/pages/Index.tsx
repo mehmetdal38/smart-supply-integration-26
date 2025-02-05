@@ -238,16 +238,40 @@ const ProductCatalog = () => {
             </div>
             <div className="flex items-center justify-center gap-4 mt-4">
               {isMobile ? (
-                <>
-                  <Button variant="ghost" size="icon" asChild>
-                    <MessageCircle className="h-5 w-5" />
-                  </Button>
-                  <Button variant="ghost" size="icon" asChild>
-                    <Clock className="h-5 w-5" />
-                  </Button>
-                  <Button variant="ghost" size="icon" asChild>
-                    <HelpCircle className="h-5 w-5" />
-                  </Button>
+                <div className="flex gap-4">
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant="ghost" size="icon">
+                        <MessageCircle className="h-5 w-5" />
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-4xl max-h-[80vh]">
+                      <Messages />
+                    </DialogContent>
+                  </Dialog>
+
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant="ghost" size="icon">
+                        <Clock className="h-5 w-5" />
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-4xl max-h-[80vh]">
+                      <PastOrders />
+                    </DialogContent>
+                  </Dialog>
+
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant="ghost" size="icon">
+                        <HelpCircle className="h-5 w-5" />
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-4xl max-h-[80vh]">
+                      <Support />
+                    </DialogContent>
+                  </Dialog>
+
                   <Sheet>
                     <SheetTrigger asChild>
                       <Button variant="outline" className="relative">
@@ -376,7 +400,7 @@ const ProductCatalog = () => {
                       </div>
                     </SheetContent>
                   </Sheet>
-                </>
+                </div>
               ) : (
                 <>
                   <Messages />
