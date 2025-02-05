@@ -4,10 +4,12 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { History, Truck } from "lucide-react";
+import { History, Truck, RefreshCw } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { useState } from "react";
 
 const pastOrders = [
   {
@@ -17,10 +19,11 @@ const pastOrders = [
     status: "Teslim Edildi",
     trackingCode: "1234567890",
     trackingUrl: "https://www.yurticikargo.com/tr/online-servisler/gonderi-sorgula?code=1234567890",
+    invoice: "INV001",
     items: [
-      { name: "Endüstriyel Bulaşık Makinesi", quantity: 1, price: 45000 },
-      { name: "Profesyonel Bıçak Seti", quantity: 1, price: 2500 },
-      { name: "Servis Tabakları (6'lı)", quantity: 1, price: 1200 }
+      { name: "Endüstriyel Bulaşık Makinesi", quantity: 1, price: 45000, returnEligible: true },
+      { name: "Profesyonel Bıçak Seti", quantity: 1, price: 2500, returnEligible: true },
+      { name: "Servis Tabakları (6'lı)", quantity: 1, price: 1200, returnEligible: false }
     ]
   },
   {
@@ -30,14 +33,18 @@ const pastOrders = [
     status: "Teslim Edildi",
     trackingCode: "9876543210",
     trackingUrl: "https://www.yurticikargo.com/tr/online-servisler/gonderi-sorgula?code=9876543210",
+    invoice: "INV002",
     items: [
-      { name: "Endüstriyel Mikser", quantity: 1, price: 8500 },
-      { name: "Garson Önlüğü", quantity: 3, price: 350 }
+      { name: "Endüstriyel Mikser", quantity: 1, price: 8500, returnEligible: true },
+      { name: "Garson Önlüğü", quantity: 3, price: 350, returnEligible: false }
     ]
   }
 ];
 
 const PastOrders = () => {
+  const [selectedOrder, setSelectedOrder] = useState<string | null>(null);
+  const [showReturnDialog, setShowReturnDialog] = useState(false);
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -61,15 +68,25 @@ const PastOrders = () => {
                 <div className="text-right">
                   <p className="font-semibold">Toplam: {order.total} TL</p>
                   <p className="text-sm text-green-600">{order.status}</p>
-                  <a
-                    href={order.trackingUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-blue-600 hover:underline flex items-center gap-1 justify-end mt-1"
-                  >
-                    <Truck className="h-4 w-4" />
-                    Kargo Takip: {order.trackingCode}
-                  </a>
+                  <div className="flex items-center gap-2 justify-end mt-1">
+                    <a
+                      href={order.trackingUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-blue-600 hover:underline flex items-center gap-1"
+                    >
+                      <Truck className="h-4 w-4" />
+                      Kargo Takip: {order.trackingCode}
+                    </a>
+                    <a
+                      href={`/invoices/${order.invoice}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-blue-600 hover:underline"
+                    >
+                      Fatura
+                    </a>
+                  </div>
                 </div>
               </div>
               <Table>
@@ -79,6 +96,7 @@ const PastOrders = () => {
                     <TableHead className="text-right">Adet</TableHead>
                     <TableHead className="text-right">Fiyat</TableHead>
                     <TableHead className="text-right">Toplam</TableHead>
+                    <TableHead className="text-right">İşlemler</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -88,6 +106,22 @@ const PastOrders = () => {
                       <TableCell className="text-right">{item.quantity}</TableCell>
                       <TableCell className="text-right">{item.price} TL</TableCell>
                       <TableCell className="text-right">{item.quantity * item.price} TL</TableCell>
+                      <TableCell className="text-right">
+                        {item.returnEligible && (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="flex items-center gap-1"
+                            onClick={() => {
+                              setSelectedOrder(order.id);
+                              setShowReturnDialog(true);
+                            }}
+                          >
+                            <RefreshCw className="h-4 w-4" />
+                            İade/Değişim
+                          </Button>
+                        )}
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -96,6 +130,35 @@ const PastOrders = () => {
           ))}
         </div>
       </DialogContent>
+
+      <Dialog open={showReturnDialog} onOpenChange={setShowReturnDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>İade/Değişim Talebi</DialogTitle>
+            <DialogDescription>
+              İade veya değişim talebinizi oluşturun. Talebiniz incelendikten sonra size dönüş yapılacaktır.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <label className="text-sm font-medium">İade/Değişim Nedeni</label>
+              <textarea
+                className="w-full min-h-[100px] p-2 border rounded-md"
+                placeholder="Lütfen iade veya değişim talebinizin nedenini açıklayın..."
+              />
+            </div>
+            <Button
+              className="w-full"
+              onClick={() => {
+                setShowReturnDialog(false);
+                setSelectedOrder(null);
+              }}
+            >
+              Talebi Gönder
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </Dialog>
   );
 };

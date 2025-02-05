@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/dialog";
 import PastOrders from "@/components/PastOrders";
 import Messages from "@/components/Messages";
+import Support from "@/components/Support";
 
 interface Product {
   id: number;
@@ -233,6 +234,7 @@ const ProductCatalog = () => {
             <div className="flex items-center gap-4">
               <Messages />
               <PastOrders />
+              <Support />
               <Sheet>
                 <SheetTrigger asChild>
                   <Button variant="outline" className="relative">
