@@ -150,7 +150,7 @@ const ProductCatalog = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [cart, setCart] = useState<{ product: Product; quantity: number }[]>([]);
   const [showPayment, setShowPayment] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState<"credit-card" | "supplier-finance">("credit-card");
+  const [paymentMethod, setPaymentMethod] = useState<"credit-card">("credit-card");
   const [billingInfo, setBillingInfo] = useState({
     name: "",
     taxId: "",
@@ -327,22 +327,6 @@ const ProductCatalog = () => {
                                   <DialogTitle>Ödeme Bilgileri</DialogTitle>
                                 </DialogHeader>
                                 <div className="space-y-4">
-                                  <div className="flex gap-4">
-                                    <Button
-                                      variant={paymentMethod === "credit-card" ? "default" : "outline"}
-                                      onClick={() => setPaymentMethod("credit-card")}
-                                      className="flex-1"
-                                    >
-                                      Kredi Kartı
-                                    </Button>
-                                    <Button
-                                      variant={paymentMethod === "supplier-finance" ? "default" : "outline"}
-                                      onClick={() => setPaymentMethod("supplier-finance")}
-                                      className="flex-1"
-                                    >
-                                      Tedarikçi Finansmanı
-                                    </Button>
-                                  </div>
                                   <div className="space-y-4">
                                     <h3 className="font-medium">Fatura Bilgileri</h3>
                                     <Input
@@ -371,16 +355,14 @@ const ProductCatalog = () => {
                                       onChange={(e) => setBillingInfo({ ...billingInfo, phone: e.target.value })}
                                     />
                                   </div>
-                                  {paymentMethod === "credit-card" && (
-                                    <div className="space-y-4">
-                                      <h3 className="font-medium">Kart Bilgileri</h3>
-                                      <Input placeholder="Kart Numarası" />
-                                      <div className="grid grid-cols-2 gap-4">
-                                        <Input placeholder="Son Kullanma Tarihi" />
-                                        <Input placeholder="CVV" />
-                                      </div>
+                                  <div className="space-y-4">
+                                    <h3 className="font-medium">Kart Bilgileri</h3>
+                                    <Input placeholder="Kart Numarası" />
+                                    <div className="grid grid-cols-2 gap-4">
+                                      <Input placeholder="Son Kullanma Tarihi" />
+                                      <Input placeholder="CVV" />
                                     </div>
-                                  )}
+                                  </div>
                                   <Button className="w-full" onClick={() => setShowPayment(false)}>
                                     Ödemeyi Tamamla
                                   </Button>
@@ -479,22 +461,6 @@ const ProductCatalog = () => {
                                   <DialogTitle>Ödeme Bilgileri</DialogTitle>
                                 </DialogHeader>
                                 <div className="space-y-4">
-                                  <div className="flex gap-4">
-                                    <Button
-                                      variant={paymentMethod === "credit-card" ? "default" : "outline"}
-                                      onClick={() => setPaymentMethod("credit-card")}
-                                      className="flex-1"
-                                    >
-                                      Kredi Kartı
-                                    </Button>
-                                    <Button
-                                      variant={paymentMethod === "supplier-finance" ? "default" : "outline"}
-                                      onClick={() => setPaymentMethod("supplier-finance")}
-                                      className="flex-1"
-                                    >
-                                      Tedarikçi Finansmanı
-                                    </Button>
-                                  </div>
                                   <div className="space-y-4">
                                     <h3 className="font-medium">Fatura Bilgileri</h3>
                                     <Input
@@ -523,16 +489,14 @@ const ProductCatalog = () => {
                                       onChange={(e) => setBillingInfo({ ...billingInfo, phone: e.target.value })}
                                     />
                                   </div>
-                                  {paymentMethod === "credit-card" && (
-                                    <div className="space-y-4">
-                                      <h3 className="font-medium">Kart Bilgileri</h3>
-                                      <Input placeholder="Kart Numarası" />
-                                      <div className="grid grid-cols-2 gap-4">
-                                        <Input placeholder="Son Kullanma Tarihi" />
-                                        <Input placeholder="CVV" />
-                                      </div>
+                                  <div className="space-y-4">
+                                    <h3 className="font-medium">Kart Bilgileri</h3>
+                                    <Input placeholder="Kart Numarası" />
+                                    <div className="grid grid-cols-2 gap-4">
+                                      <Input placeholder="Son Kullanma Tarihi" />
+                                      <Input placeholder="CVV" />
                                     </div>
-                                  )}
+                                  </div>
                                   <Button className="w-full" onClick={() => setShowPayment(false)}>
                                     Ödemeyi Tamamla
                                   </Button>
