@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Search, ShoppingCart, Filter, History, Package } from "lucide-react";
+import { Search, ShoppingCart, Filter, Package } from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -11,6 +11,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import PastOrders from "@/components/PastOrders";
 
 interface Product {
   id: number;
@@ -76,6 +77,7 @@ const ProductCatalog = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [cart, setCart] = useState<{ product: Product; quantity: number }[]>([]);
+  const [showPayment, setShowPayment] = useState(false);
 
   const categories = Array.from(new Set(products.map(product => product.category)));
 
@@ -111,10 +113,7 @@ const ProductCatalog = () => {
               <h1 className="ml-4 text-2xl font-bold text-gray-900">Restoran Tedarik</h1>
             </div>
             <div className="flex items-center gap-4">
-              <Button variant="outline" className="flex items-center gap-2">
-                <History className="h-5 w-5" />
-                Geçmiş Siparişler
-              </Button>
+              <PastOrders />
               <Sheet>
                 <SheetTrigger asChild>
                   <Button variant="outline" className="relative">
@@ -126,7 +125,7 @@ const ProductCatalog = () => {
                     )}
                   </Button>
                 </SheetTrigger>
-                <SheetContent>
+                <SheetContent className="w-full sm:max-w-lg">
                   <SheetHeader>
                     <SheetTitle>Sepetim</SheetTitle>
                   </SheetHeader>
@@ -148,7 +147,25 @@ const ProductCatalog = () => {
                           <span>Toplam</span>
                           <span>{cartTotal} TL</span>
                         </div>
-                        <Button className="w-full mt-4">Siparişi Tamamla</Button>
+                        {showPayment ? (
+                          <div className="mt-4 border rounded-lg p-4">
+                            <h3 className="font-medium mb-4">Ödeme Bilgileri</h3>
+                            <div className="space-y-4">
+                              <Input placeholder="Kart Numarası" />
+                              <div className="grid grid-cols-2 gap-4">
+                                <Input placeholder="Son Kullanma Tarihi" />
+                                <Input placeholder="CVV" />
+                              </div>
+                              <Button className="w-full" onClick={() => setShowPayment(false)}>
+                                Ödemeyi Tamamla
+                              </Button>
+                            </div>
+                          </div>
+                        ) : (
+                          <Button className="w-full mt-4" onClick={() => setShowPayment(true)}>
+                            Ödemeye Geç
+                          </Button>
+                        )}
                       </div>
                     ) : (
                       <p className="text-center text-gray-500">Sepetiniz boş</p>
@@ -188,7 +205,7 @@ const ProductCatalog = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
           {filteredProducts.map(product => (
             <Card key={product.id} className="overflow-hidden">
               <div className="aspect-square relative bg-gray-100">
@@ -203,19 +220,19 @@ const ProductCatalog = () => {
                 />
               </div>
               <CardHeader className="p-4">
-                <CardTitle className="text-lg">{product.name}</CardTitle>
+                <CardTitle className="text-lg line-clamp-2">{product.name}</CardTitle>
               </CardHeader>
               <CardContent className="p-4 pt-0">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <Badge variant="secondary" className="mb-2">
-                      {product.category}
-                    </Badge>
-                    <p className="font-medium text-lg">{product.price} TL / {product.unit}</p>
+                <div className="flex flex-col gap-2">
+                  <Badge variant="secondary" className="w-fit">
+                    {product.category}
+                  </Badge>
+                  <div className="flex justify-between items-center">
+                    <p className="font-medium">{product.price} TL</p>
+                    <Button size="sm" onClick={() => addToCart(product)}>
+                      <ShoppingCart className="h-4 w-4" />
+                    </Button>
                   </div>
-                  <Button size="sm" onClick={() => addToCart(product)}>
-                    <ShoppingCart className="h-4 w-4" />
-                  </Button>
                 </div>
               </CardContent>
             </Card>
