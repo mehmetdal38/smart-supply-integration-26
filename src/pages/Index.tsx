@@ -416,54 +416,56 @@ const ProductCatalog = () => {
                   </Badge>
                   <div className="flex justify-between items-center">
                     <p className="font-medium">{product.price} TL</p>
-                    <div className="flex gap-2">
-                      <Dialog>
-                        <DialogTrigger asChild>
-                          <Button size="sm" variant="outline">
-                            <MessageSquare className="h-4 w-4" />
-                          </Button>
-                        </DialogTrigger>
-                        <DialogContent>
-                          <DialogHeader>
-                            <DialogTitle>Tedarikçi ile Mesajlaş</DialogTitle>
-                            <DialogDescription>
-                              {product.supplier} ile iletişime geçin
-                            </DialogDescription>
-                          </DialogHeader>
-                          <div className="space-y-4">
-                            <div className="border rounded-lg p-4">
-                              <Input placeholder="Mesajınızı yazın..." />
-                              <Button className="mt-4 w-full">Gönder</Button>
-                            </div>
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button size="sm" variant="outline">
+                          <MessageSquare className="h-4 w-4" />
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent>
+                        <DialogHeader>
+                          <DialogTitle>Tedarikçi ile Mesajlaş</DialogTitle>
+                          <DialogDescription>
+                            {product.supplier} ile iletişime geçin
+                          </DialogDescription>
+                        </DialogHeader>
+                        <div className="space-y-4">
+                          <div className="border rounded-lg p-4">
+                            <Input placeholder="Mesajınızı yazın..." />
+                            <Button className="mt-4 w-full">Gönder</Button>
                           </div>
-                        </DialogContent>
-                      </Dialog>
-                      <div className="flex items-center gap-1">
-                        <Button 
-                          size="sm" 
-                          variant="outline"
-                          onClick={() => decrementQuantity(product.id)}
-                        >
-                          <Minus className="h-3 w-3" />
-                        </Button>
-                        <span className="w-8 text-center">
-                          {quantities[product.id] || 1}
-                        </span>
-                        <Button 
-                          size="sm" 
-                          variant="outline"
-                          onClick={() => incrementQuantity(product.id)}
-                        >
-                          <Plus className="h-3 w-3" />
-                        </Button>
-                      </div>
+                        </div>
+                      </DialogContent>
+                    </Dialog>
+                  </div>
+                  <div className="flex flex-col gap-2 mt-2">
+                    <div className="flex items-center gap-1 justify-end">
                       <Button 
                         size="sm" 
-                        onClick={() => addToCart(product, quantities[product.id] || 1)}
+                        variant="outline"
+                        onClick={() => decrementQuantity(product.id)}
                       >
-                        <ShoppingCart className="h-4 w-4" />
+                        <Minus className="h-3 w-3" />
+                      </Button>
+                      <span className="w-8 text-center">
+                        {quantities[product.id] || 1}
+                      </span>
+                      <Button 
+                        size="sm" 
+                        variant="outline"
+                        onClick={() => incrementQuantity(product.id)}
+                      >
+                        <Plus className="h-3 w-3" />
                       </Button>
                     </div>
+                    <Button 
+                      size="sm"
+                      className="w-full"
+                      onClick={() => addToCart(product, quantities[product.id] || 1)}
+                    >
+                      <ShoppingCart className="h-4 w-4" />
+                      Sepete Ekle
+                    </Button>
                   </div>
                 </div>
               </CardContent>
