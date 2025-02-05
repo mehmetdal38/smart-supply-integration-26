@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Search, ShoppingCart, Filter, MessageSquare } from "lucide-react";
+import { Search, ShoppingCart, Filter, MessageSquare, Plus, Minus } from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -17,6 +17,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import PastOrders from "@/components/PastOrders";
 import Messages from "@/components/Messages";
@@ -155,6 +156,7 @@ const ProductCatalog = () => {
     city: "",
     phone: ""
   });
+  const [quantities, setQuantities] = useState<{ [key: number]: number }>({}); // For product quantity selection
 
   const categories = Array.from(new Set(products.map(product => product.category)));
 
@@ -164,21 +166,51 @@ const ProductCatalog = () => {
     return matchesSearch && matchesCategory;
   });
 
-  const addToCart = (product: Product) => {
+  const addToCart = (product: Product, quantity: number = 1) => {
     setCart(currentCart => {
       const existingItem = currentCart.find(item => item.product.id === product.id);
       if (existingItem) {
         return currentCart.map(item =>
           item.product.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
+            ? { ...item, quantity: item.quantity + quantity }
             : item
         );
       }
-      return [...currentCart, { product, quantity: 1 }];
+      return [...currentCart, { product, quantity }];
     });
+    setQuantities(prev => ({ ...prev, [product.id]: 1 })); // Reset quantity after adding to cart
+  };
+
+  const updateCartQuantity = (productId: number, newQuantity: number) => {
+    if (newQuantity < 1) return;
+    setCart(currentCart =>
+      currentCart.map(item =>
+        item.product.id === productId
+          ? { ...item, quantity: newQuantity }
+          : item
+      )
+    );
+  };
+
+  const removeFromCart = (productId: number) => {
+    setCart(currentCart => currentCart.filter(item => item.product.id !== productId));
   };
 
   const cartTotal = cart.reduce((total, item) => total + (item.product.price * item.quantity), 0);
+
+  const incrementQuantity = (productId: number) => {
+    setQuantities(prev => ({
+      ...prev,
+      [productId]: (prev[productId] || 1) + 1
+    }));
+  };
+
+  const decrementQuantity = (productId: number) => {
+    setQuantities(prev => ({
+      ...prev,
+      [productId]: Math.max(1, (prev[productId] || 1) - 1)
+    }));
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -210,13 +242,38 @@ const ProductCatalog = () => {
                   <div className="mt-4 space-y-4">
                     {cart.map(item => (
                       <div key={item.product.id} className="flex justify-between items-center">
-                        <div>
+                        <div className="flex-1">
                           <p className="font-medium">{item.product.name}</p>
                           <p className="text-sm text-gray-500">
-                            {item.quantity} {item.product.unit} x {item.product.price} TL
+                            {item.product.price} TL
                           </p>
                         </div>
-                        <p className="font-medium">{item.product.price * item.quantity} TL</p>
+                        <div className="flex items-center gap-2">
+                          <Button 
+                            size="sm" 
+                            variant="outline"
+                            onClick={() => updateCartQuantity(item.product.id, item.quantity - 1)}
+                          >
+                            <Minus className="h-3 w-3" />
+                          </Button>
+                          <span className="w-8 text-center">
+                            {item.quantity}
+                          </span>
+                          <Button 
+                            size="sm" 
+                            variant="outline"
+                            onClick={() => updateCartQuantity(item.product.id, item.quantity + 1)}
+                          >
+                            <Plus className="h-3 w-3" />
+                          </Button>
+                          <Button 
+                            size="sm" 
+                            variant="destructive"
+                            onClick={() => removeFromCart(item.product.id)}
+                          >
+                            <Minus className="h-3 w-3" />
+                          </Button>
+                        </div>
                       </div>
                     ))}
                     {cart.length > 0 ? (
@@ -369,11 +426,11 @@ const ProductCatalog = () => {
                         <DialogContent>
                           <DialogHeader>
                             <DialogTitle>Tedarikçi ile Mesajlaş</DialogTitle>
+                            <DialogDescription>
+                              {product.supplier} ile iletişime geçin
+                            </DialogDescription>
                           </DialogHeader>
                           <div className="space-y-4">
-                            <p className="text-sm text-gray-500">
-                              Tedarikçi: {product.supplier}
-                            </p>
                             <div className="border rounded-lg p-4">
                               <Input placeholder="Mesajınızı yazın..." />
                               <Button className="mt-4 w-full">Gönder</Button>
@@ -381,7 +438,29 @@ const ProductCatalog = () => {
                           </div>
                         </DialogContent>
                       </Dialog>
-                      <Button size="sm" onClick={() => addToCart(product)}>
+                      <div className="flex items-center gap-1">
+                        <Button 
+                          size="sm" 
+                          variant="outline"
+                          onClick={() => decrementQuantity(product.id)}
+                        >
+                          <Minus className="h-3 w-3" />
+                        </Button>
+                        <span className="w-8 text-center">
+                          {quantities[product.id] || 1}
+                        </span>
+                        <Button 
+                          size="sm" 
+                          variant="outline"
+                          onClick={() => incrementQuantity(product.id)}
+                        >
+                          <Plus className="h-3 w-3" />
+                        </Button>
+                      </div>
+                      <Button 
+                        size="sm" 
+                        onClick={() => addToCart(product, quantities[product.id] || 1)}
+                      >
                         <ShoppingCart className="h-4 w-4" />
                       </Button>
                     </div>
