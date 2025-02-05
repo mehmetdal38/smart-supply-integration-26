@@ -65,7 +65,8 @@ const products: Product[] = [
     price: 350,
     category: "Tekstil",
     unit: "adet",
-    image: "https://images.unsplash.com/photo-1581299894007-aaa50297cf16"
+    image: "https://images.unsplash.com/photo-1581299894007-aaa50297cf16",
+    supplier: "Tekstil Tedarik A.Ş."
   },
   {
     id: 5,
@@ -73,7 +74,8 @@ const products: Product[] = [
     price: 8500,
     category: "Mutfak Ekipmanları",
     unit: "adet",
-    image: "https://images.unsplash.com/photo-1591261730799-ee4e6c2d16d7"
+    image: "https://images.unsplash.com/photo-1591261730799-ee4e6c2d16d7",
+    supplier: "Pro Ekipman A.Ş."
   },
   {
     id: 6,
@@ -81,7 +83,8 @@ const products: Product[] = [
     price: 750,
     category: "Tekstil",
     unit: "set",
-    image: "https://images.unsplash.com/photo-1563290131-a6b9a0e8bea9"
+    image: "https://images.unsplash.com/photo-1563290131-a6b9a0e8bea9",
+    supplier: "Tekstil Tedarik A.Ş."
   }
 ];
 
