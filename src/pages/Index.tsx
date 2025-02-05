@@ -166,6 +166,15 @@ const ProductCatalog = () => {
     return matchesSearch && matchesCategory;
   });
 
+  const cartTotalQuantity = cart.reduce((total, item) => total + item.quantity, 0);
+  const calculateShippingCost = (totalQuantity: number) => {
+    // Her 5 desi için 50 TL
+    const desiRate = 50;
+    const desiPerItem = 5; // Ortalama desi
+    const totalDesi = Math.ceil((totalQuantity * desiPerItem) / 5);
+    return totalDesi * desiRate;
+  };
+
   const addToCart = (product: Product, quantity: number = 1) => {
     setCart(currentCart => {
       const existingItem = currentCart.find(item => item.product.id === product.id);
@@ -228,9 +237,9 @@ const ProductCatalog = () => {
                 <SheetTrigger asChild>
                   <Button variant="outline" className="relative">
                     <ShoppingCart className="h-5 w-5" />
-                    {cart.length > 0 && (
+                    {cartTotalQuantity > 0 && (
                       <span className="absolute -top-2 -right-2 bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
-                        {cart.length}
+                        {cartTotalQuantity}
                       </span>
                     )}
                   </Button>
@@ -278,9 +287,19 @@ const ProductCatalog = () => {
                     ))}
                     {cart.length > 0 ? (
                       <div className="border-t pt-4">
-                        <div className="flex justify-between font-medium">
-                          <span>Toplam</span>
-                          <span>{cartTotal} TL</span>
+                        <div className="space-y-2">
+                          <div className="flex justify-between font-medium">
+                            <span>Ara Toplam</span>
+                            <span>{cartTotal} TL</span>
+                          </div>
+                          <div className="flex justify-between text-sm">
+                            <span>Kargo Bedeli</span>
+                            <span>{calculateShippingCost(cartTotalQuantity)} TL</span>
+                          </div>
+                          <div className="flex justify-between font-bold text-lg border-t pt-2">
+                            <span>Toplam</span>
+                            <span>{cartTotal + calculateShippingCost(cartTotalQuantity)} TL</span>
+                          </div>
                         </div>
                         <Dialog>
                           <DialogTrigger asChild>
