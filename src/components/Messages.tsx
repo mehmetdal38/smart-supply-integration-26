@@ -63,7 +63,27 @@ const messages = [
 
 const Messages = () => {
   const [selectedSupplier, setSelectedSupplier] = useState<string | null>(null);
+  const [newMessage, setNewMessage] = useState("");
   const selectedConversation = messages.find(m => m.supplier === selectedSupplier)?.conversation || [];
+
+  const handleSendMessage = () => {
+    if (!newMessage.trim() || !selectedSupplier) return;
+
+    const messageToAdd = {
+      sender: "me" as const,
+      message: newMessage,
+      date: new Date().toISOString().slice(0, 16).replace('T', ' ')
+    };
+
+    const supplierIndex = messages.findIndex(m => m.supplier === selectedSupplier);
+    if (supplierIndex !== -1) {
+      messages[supplierIndex].conversation.push(messageToAdd);
+      messages[supplierIndex].lastMessage = newMessage;
+      messages[supplierIndex].date = messageToAdd.date.split(' ')[0];
+    }
+
+    setNewMessage("");
+  };
 
   return (
     <Dialog>
@@ -99,8 +119,8 @@ const Messages = () => {
               ))}
             </ScrollArea>
           </div>
-          <div className="flex-1">
-            <ScrollArea className="h-[420px] pr-4">
+          <div className="flex-1 flex flex-col">
+            <ScrollArea className="flex-1 pr-4 mb-4">
               {selectedSupplier ? (
                 <div className="space-y-4">
                   {selectedConversation.map((msg, index) => (
@@ -129,9 +149,18 @@ const Messages = () => {
                 </div>
               )}
             </ScrollArea>
-            <div className="mt-4 flex gap-2">
-              <Input placeholder="Mesajınızı yazın..." className="flex-1" />
-              <Button>Gönder</Button>
+            <div className="flex gap-2 mt-auto">
+              <Input 
+                placeholder="Mesajınızı yazın..." 
+                value={newMessage}
+                onChange={(e) => setNewMessage(e.target.value)}
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter') {
+                    handleSendMessage();
+                  }
+                }}
+              />
+              <Button onClick={handleSendMessage}>Gönder</Button>
             </div>
           </div>
         </div>
