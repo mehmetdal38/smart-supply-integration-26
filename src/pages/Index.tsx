@@ -423,7 +423,7 @@ const ProductCatalog = () => {
                   className="absolute inset-0 w-full h-full object-cover"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
-                    target.src = "/placeholder.svg";
+                    target.src = "https://www.tacev.com/image/cache/catalog/image/cache/catalog/TENCERELER/tt-1508_dekube-1200x1200.webp";
                   }}
                 />
               </div>
