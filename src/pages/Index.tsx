@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Search, ShoppingCart, Filter, Package } from "lucide-react";
+import { Search, ShoppingCart, Filter, MessageSquare } from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -11,7 +11,15 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import PastOrders from "@/components/PastOrders";
+import Messages from "@/components/Messages";
 
 interface Product {
   id: number;
@@ -20,6 +28,7 @@ interface Product {
   category: string;
   unit: string;
   image: string;
+  supplier: string;
 }
 
 const products: Product[] = [
@@ -29,7 +38,8 @@ const products: Product[] = [
     price: 45000,
     category: "Mutfak Ekipmanları",
     unit: "adet",
-    image: "https://images.unsplash.com/photo-1585090944524-75496c0e0b21"
+    image: "https://images.unsplash.com/photo-1585090944524-75496c0e0b21",
+    supplier: "Endüstriyel Mutfak Ltd."
   },
   {
     id: 2,
@@ -37,7 +47,8 @@ const products: Product[] = [
     price: 2500,
     category: "Mutfak Gereçleri",
     unit: "set",
-    image: "https://images.unsplash.com/photo-1593618998160-e34014e67546"
+    image: "https://images.unsplash.com/photo-1593618998160-e34014e67546",
+    supplier: "Pro Ekipman A.Ş."
   },
   {
     id: 3,
@@ -45,7 +56,8 @@ const products: Product[] = [
     price: 1200,
     category: "Servis Ekipmanları",
     unit: "set",
-    image: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9"
+    image: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9",
+    supplier: "Endüstriyel Mutfak Ltd."
   },
   {
     id: 4,
@@ -78,6 +90,14 @@ const ProductCatalog = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [cart, setCart] = useState<{ product: Product; quantity: number }[]>([]);
   const [showPayment, setShowPayment] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState<"credit-card" | "supplier-finance">("credit-card");
+  const [billingInfo, setBillingInfo] = useState({
+    name: "",
+    taxId: "",
+    address: "",
+    city: "",
+    phone: ""
+  });
 
   const categories = Array.from(new Set(products.map(product => product.category)));
 
@@ -113,6 +133,7 @@ const ProductCatalog = () => {
               <h1 className="ml-4 text-2xl font-bold text-gray-900">Restoran Tedarik</h1>
             </div>
             <div className="flex items-center gap-4">
+              <Messages />
               <PastOrders />
               <Sheet>
                 <SheetTrigger asChild>
@@ -148,18 +169,64 @@ const ProductCatalog = () => {
                           <span>{cartTotal} TL</span>
                         </div>
                         {showPayment ? (
-                          <div className="mt-4 border rounded-lg p-4">
-                            <h3 className="font-medium mb-4">Ödeme Bilgileri</h3>
-                            <div className="space-y-4">
-                              <Input placeholder="Kart Numarası" />
-                              <div className="grid grid-cols-2 gap-4">
-                                <Input placeholder="Son Kullanma Tarihi" />
-                                <Input placeholder="CVV" />
-                              </div>
-                              <Button className="w-full" onClick={() => setShowPayment(false)}>
-                                Ödemeyi Tamamla
+                          <div className="mt-4 space-y-4">
+                            <div className="flex gap-4">
+                              <Button
+                                variant={paymentMethod === "credit-card" ? "default" : "outline"}
+                                onClick={() => setPaymentMethod("credit-card")}
+                                className="flex-1"
+                              >
+                                Kredi Kartı
+                              </Button>
+                              <Button
+                                variant={paymentMethod === "supplier-finance" ? "default" : "outline"}
+                                onClick={() => setPaymentMethod("supplier-finance")}
+                                className="flex-1"
+                              >
+                                Tedarikçi Finansmanı
                               </Button>
                             </div>
+                            <div className="space-y-4 border rounded-lg p-4">
+                              <h3 className="font-medium">Fatura Bilgileri</h3>
+                              <Input
+                                placeholder="Firma Adı"
+                                value={billingInfo.name}
+                                onChange={(e) => setBillingInfo({ ...billingInfo, name: e.target.value })}
+                              />
+                              <Input
+                                placeholder="Vergi No"
+                                value={billingInfo.taxId}
+                                onChange={(e) => setBillingInfo({ ...billingInfo, taxId: e.target.value })}
+                              />
+                              <Input
+                                placeholder="Adres"
+                                value={billingInfo.address}
+                                onChange={(e) => setBillingInfo({ ...billingInfo, address: e.target.value })}
+                              />
+                              <Input
+                                placeholder="Şehir"
+                                value={billingInfo.city}
+                                onChange={(e) => setBillingInfo({ ...billingInfo, city: e.target.value })}
+                              />
+                              <Input
+                                placeholder="Telefon"
+                                value={billingInfo.phone}
+                                onChange={(e) => setBillingInfo({ ...billingInfo, phone: e.target.value })}
+                              />
+                            </div>
+                            {paymentMethod === "credit-card" && (
+                              <div className="space-y-4 border rounded-lg p-4">
+                                <h3 className="font-medium">Kart Bilgileri</h3>
+                                <Input placeholder="Kart Numarası" />
+                                <div className="grid grid-cols-2 gap-4">
+                                  <Input placeholder="Son Kullanma Tarihi" />
+                                  <Input placeholder="CVV" />
+                                </div>
+                              </div>
+                            )}
+                            <Button className="w-full" onClick={() => setShowPayment(false)}>
+                              Ödemeyi Tamamla
+                            </Button>
                           </div>
                         ) : (
                           <Button className="w-full mt-4" onClick={() => setShowPayment(true)}>
@@ -207,7 +274,7 @@ const ProductCatalog = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
           {filteredProducts.map(product => (
-            <Card key={product.id} className="overflow-hidden">
+            <Card key={product.id} className="flex flex-col">
               <div className="aspect-square relative bg-gray-100">
                 <img
                   src={product.image}
@@ -219,7 +286,7 @@ const ProductCatalog = () => {
                   }}
                 />
               </div>
-              <CardHeader className="p-4">
+              <CardHeader className="p-4 flex-grow">
                 <CardTitle className="text-lg line-clamp-2">{product.name}</CardTitle>
               </CardHeader>
               <CardContent className="p-4 pt-0">
@@ -229,9 +296,32 @@ const ProductCatalog = () => {
                   </Badge>
                   <div className="flex justify-between items-center">
                     <p className="font-medium">{product.price} TL</p>
-                    <Button size="sm" onClick={() => addToCart(product)}>
-                      <ShoppingCart className="h-4 w-4" />
-                    </Button>
+                    <div className="flex gap-2">
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button size="sm" variant="outline">
+                            <MessageSquare className="h-4 w-4" />
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent>
+                          <DialogHeader>
+                            <DialogTitle>Tedarikçi ile Mesajlaş</DialogTitle>
+                          </DialogHeader>
+                          <div className="space-y-4">
+                            <p className="text-sm text-gray-500">
+                              Tedarikçi: {product.supplier}
+                            </p>
+                            <div className="border rounded-lg p-4">
+                              <Input placeholder="Mesajınızı yazın..." />
+                              <Button className="mt-4 w-full">Gönder</Button>
+                            </div>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
+                      <Button size="sm" onClick={() => addToCart(product)}>
+                        <ShoppingCart className="h-4 w-4" />
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </CardContent>

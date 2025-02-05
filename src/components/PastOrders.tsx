@@ -6,7 +6,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { History } from "lucide-react";
+import { History, Truck } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 const pastOrders = [
@@ -15,6 +15,8 @@ const pastOrders = [
     date: "2024-02-05",
     total: 48750,
     status: "Teslim Edildi",
+    trackingCode: "1234567890",
+    trackingUrl: "https://www.yurticikargo.com/tr/online-servisler/gonderi-sorgula?code=1234567890",
     items: [
       { name: "Endüstriyel Bulaşık Makinesi", quantity: 1, price: 45000 },
       { name: "Profesyonel Bıçak Seti", quantity: 1, price: 2500 },
@@ -26,6 +28,8 @@ const pastOrders = [
     date: "2024-02-03",
     total: 9600,
     status: "Teslim Edildi",
+    trackingCode: "9876543210",
+    trackingUrl: "https://www.yurticikargo.com/tr/online-servisler/gonderi-sorgula?code=9876543210",
     items: [
       { name: "Endüstriyel Mikser", quantity: 1, price: 8500 },
       { name: "Garson Önlüğü", quantity: 3, price: 350 }
@@ -57,6 +61,15 @@ const PastOrders = () => {
                 <div className="text-right">
                   <p className="font-semibold">Toplam: {order.total} TL</p>
                   <p className="text-sm text-green-600">{order.status}</p>
+                  <a
+                    href={order.trackingUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-blue-600 hover:underline flex items-center gap-1 justify-end mt-1"
+                  >
+                    <Truck className="h-4 w-4" />
+                    Kargo Takip: {order.trackingCode}
+                  </a>
                 </div>
               </div>
               <Table>
