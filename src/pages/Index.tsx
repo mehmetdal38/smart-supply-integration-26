@@ -1,147 +1,208 @@
 import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { CheckCircle2, AlertCircle } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Search, ShoppingCart, Filter, Package } from "lucide-react";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
-const DomainManager = () => {
-  const [domain, setDomain] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const { toast } = useToast();
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  category: string;
+  unit: string;
+  image: string;
+}
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+const products: Product[] = [
+  {
+    id: 1,
+    name: "Dana Kıyma",
+    price: 450,
+    category: "Et Ürünleri",
+    unit: "kg",
+    image: "/placeholder.svg"
+  },
+  {
+    id: 2,
+    name: "Domates",
+    price: 25,
+    category: "Sebze",
+    unit: "kg",
+    image: "/placeholder.svg"
+  },
+  {
+    id: 3,
+    name: "Ayçiçek Yağı",
+    price: 120,
+    category: "Yağlar",
+    unit: "L",
+    image: "/placeholder.svg"
+  },
+  {
+    id: 4,
+    name: "Pirinç",
+    price: 85,
+    category: "Bakliyat",
+    unit: "kg",
+    image: "/placeholder.svg"
+  },
+  {
+    id: 5,
+    name: "Tavuk Göğsü",
+    price: 180,
+    category: "Et Ürünleri",
+    unit: "kg",
+    image: "/placeholder.svg"
+  },
+  {
+    id: 6,
+    name: "Patates",
+    price: 30,
+    category: "Sebze",
+    unit: "kg",
+    image: "/placeholder.svg"
+  }
+];
 
-    try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      toast({
-        title: "Domain yönlendirme başarılı!",
-        description: `${domain} başarıyla yönlendirildi.`,
-      });
+const ProductCatalog = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [cart, setCart] = useState<{ product: Product; quantity: number }[]>([]);
 
-      // Reset form
-      setDomain("");
-    } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Hata!",
-        description: "Domain yönlendirme sırasında bir hata oluştu.",
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
+  const categories = Array.from(new Set(products.map(product => product.category)));
+
+  const filteredProducts = products.filter(product => {
+    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = !selectedCategory || product.category === selectedCategory;
+    return matchesSearch && matchesCategory;
+  });
+
+  const addToCart = (product: Product) => {
+    setCart(currentCart => {
+      const existingItem = currentCart.find(item => item.product.id === product.id);
+      if (existingItem) {
+        return currentCart.map(item =>
+          item.product.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      }
+      return [...currentCart, { product, quantity: 1 }];
+    });
   };
 
+  const cartTotal = cart.reduce((total, item) => total + (item.product.price * item.quantity), 0);
+
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Bayi Profil Yönetimi</h1>
-          <p className="mt-2 text-gray-600">Domain yönlendirme ve profil ayarlarınızı buradan yönetebilirsiniz.</p>
+    <div className="min-h-screen bg-gray-50 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-3xl font-bold text-gray-900">Ürün Kataloğu</h1>
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="outline" className="relative">
+                <ShoppingCart className="h-5 w-5" />
+                {cart.length > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+                    {cart.length}
+                  </span>
+                )}
+              </Button>
+            </SheetTrigger>
+            <SheetContent>
+              <SheetHeader>
+                <SheetTitle>Sepetim</SheetTitle>
+              </SheetHeader>
+              <div className="mt-4 space-y-4">
+                {cart.map(item => (
+                  <div key={item.product.id} className="flex justify-between items-center">
+                    <div>
+                      <p className="font-medium">{item.product.name}</p>
+                      <p className="text-sm text-gray-500">
+                        {item.quantity} {item.product.unit} x {item.product.price} TL
+                      </p>
+                    </div>
+                    <p className="font-medium">{item.product.price * item.quantity} TL</p>
+                  </div>
+                ))}
+                {cart.length > 0 ? (
+                  <div className="border-t pt-4">
+                    <div className="flex justify-between font-medium">
+                      <span>Toplam</span>
+                      <span>{cartTotal} TL</span>
+                    </div>
+                    <Button className="w-full mt-4">Siparişi Tamamla</Button>
+                  </div>
+                ) : (
+                  <p className="text-center text-gray-500">Sepetiniz boş</p>
+                )}
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
 
-        <Tabs defaultValue="domain" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="domain">Domain Yönetimi</TabsTrigger>
-            <TabsTrigger value="profile">Profil Bilgileri</TabsTrigger>
-          </TabsList>
+        <div className="flex flex-col sm:flex-row gap-4 mb-6">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+            <Input
+              type="text"
+              placeholder="Ürün ara..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-10"
+            />
+          </div>
+          <div className="flex gap-2">
+            <Filter className="h-5 w-5 mt-3" />
+            {categories.map(category => (
+              <Badge
+                key={category}
+                variant={selectedCategory === category ? "default" : "outline"}
+                className="cursor-pointer"
+                onClick={() => setSelectedCategory(selectedCategory === category ? "" : category)}
+              >
+                {category}
+              </Badge>
+            ))}
+          </div>
+        </div>
 
-          <TabsContent value="domain">
-            <Card>
-              <CardHeader>
-                <CardTitle>Subdomain Yönetimi</CardTitle>
-                <CardDescription>
-                  Yenitoptancı altyapısına yönlendirilecek subdomain'inizi buradan ayarlayabilirsiniz.
-                </CardDescription>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {filteredProducts.map(product => (
+            <Card key={product.id} className="overflow-hidden">
+              <div className="aspect-square relative bg-gray-100">
+                <Package className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-12 w-12 text-gray-400" />
+              </div>
+              <CardHeader className="p-4">
+                <CardTitle className="text-lg">{product.name}</CardTitle>
               </CardHeader>
-              <CardContent>
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="space-y-2">
-                    <label htmlFor="domain" className="text-sm font-medium text-gray-700">
-                      Subdomain Adresi
-                    </label>
-                    <Input
-                      id="domain"
-                      type="text"
-                      placeholder="market.firmaadi.com"
-                      value={domain}
-                      onChange={(e) => setDomain(e.target.value)}
-                      className="w-full"
-                      required
-                    />
-                    <p className="text-sm text-gray-500">
-                      Örnek: market.firmaadi.com
-                    </p>
-                  </div>
-
-                  <Alert className="bg-blue-50 border-blue-200">
-                    <AlertCircle className="h-4 w-4 text-blue-600" />
-                    <AlertDescription className="text-blue-700">
-                      Girdiğiniz subdomain otomatik olarak Yenitoptancı altyapısına yönlendirilecektir.
-                    </AlertDescription>
-                  </Alert>
-
-                  <Button 
-                    type="submit" 
-                    className="w-full"
-                    disabled={isSubmitting}
-                  >
-                    {isSubmitting ? "Yönlendiriliyor..." : "Yönlendirmeyi Başlat"}
-                  </Button>
-                </form>
-
-                {domain && (
-                  <div className="mt-6">
-                    <Alert className="bg-green-50 border-green-200">
-                      <CheckCircle2 className="h-4 w-4 text-green-600" />
-                      <AlertDescription className="text-green-700">
-                        DNS ayarlarınızı tamamladıktan sonra yönlendirme aktif olacaktır.
-                      </AlertDescription>
-                    </Alert>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="profile">
-            <Card>
-              <CardHeader>
-                <CardTitle>Profil Bilgileri</CardTitle>
-                <CardDescription>
-                  Firma bilgilerinizi buradan güncelleyebilirsiniz.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="text-sm font-medium text-gray-700">Firma Adı</label>
-                      <Input placeholder="Firma Adı" disabled value="Demo Firma" />
-                    </div>
-                    <div>
-                      <label className="text-sm font-medium text-gray-700">Vergi No</label>
-                      <Input placeholder="Vergi No" disabled value="1234567890" />
-                    </div>
-                  </div>
+              <CardContent className="p-4 pt-0">
+                <div className="flex justify-between items-center">
                   <div>
-                    <label className="text-sm font-medium text-gray-700">Email</label>
-                    <Input placeholder="Email" disabled value="demo@firma.com" />
+                    <Badge variant="secondary" className="mb-2">
+                      {product.category}
+                    </Badge>
+                    <p className="font-medium text-lg">{product.price} TL / {product.unit}</p>
                   </div>
+                  <Button size="sm" onClick={() => addToCart(product)}>
+                    <ShoppingCart className="h-4 w-4" />
+                  </Button>
                 </div>
               </CardContent>
             </Card>
-          </TabsContent>
-        </Tabs>
+          ))}
+        </div>
       </div>
     </div>
   );
 };
 
-export default DomainManager;
+export default ProductCatalog;
