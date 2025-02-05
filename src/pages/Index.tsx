@@ -241,9 +241,7 @@ const ProductCatalog = () => {
                 <div className="flex gap-4">
                   <Dialog>
                     <DialogTrigger asChild>
-                      <Button variant="ghost" size="icon">
-                        <MessageCircle className="h-5 w-5" />
-                      </Button>
+                      <MessageCircle className="h-6 w-6 cursor-pointer" />
                     </DialogTrigger>
                     <DialogContent className="max-w-4xl max-h-[80vh]">
                       <DialogHeader>
@@ -255,9 +253,7 @@ const ProductCatalog = () => {
 
                   <Dialog>
                     <DialogTrigger asChild>
-                      <Button variant="ghost" size="icon">
-                        <Clock className="h-5 w-5" />
-                      </Button>
+                      <Clock className="h-6 w-6 cursor-pointer" />
                     </DialogTrigger>
                     <DialogContent className="max-w-4xl max-h-[80vh]">
                       <DialogHeader>
@@ -269,9 +265,7 @@ const ProductCatalog = () => {
 
                   <Dialog>
                     <DialogTrigger asChild>
-                      <Button variant="ghost" size="icon">
-                        <HelpCircle className="h-5 w-5" />
-                      </Button>
+                      <HelpCircle className="h-6 w-6 cursor-pointer" />
                     </DialogTrigger>
                     <DialogContent className="max-w-4xl max-h-[80vh]">
                       <DialogHeader>
@@ -283,14 +277,14 @@ const ProductCatalog = () => {
 
                   <Sheet>
                     <SheetTrigger asChild>
-                      <Button variant="outline" className="relative">
-                        <ShoppingCart className="h-5 w-5" />
+                      <div className="relative cursor-pointer">
+                        <ShoppingCart className="h-6 w-6" />
                         {cartTotalQuantity > 0 && (
                           <span className="absolute -top-2 -right-2 bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
                             {cartTotalQuantity}
                           </span>
                         )}
-                      </Button>
+                      </div>
                     </SheetTrigger>
                     <SheetContent className="w-full sm:max-w-lg">
                       <SheetHeader>
