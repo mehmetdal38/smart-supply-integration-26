@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Search, ShoppingCart, Filter, Package } from "lucide-react";
+import { Search, ShoppingCart, Filter, History, Package } from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -24,51 +24,51 @@ interface Product {
 const products: Product[] = [
   {
     id: 1,
-    name: "Dana Kıyma",
-    price: 450,
-    category: "Et Ürünleri",
-    unit: "kg",
-    image: "/placeholder.svg"
+    name: "Endüstriyel Bulaşık Makinesi",
+    price: 45000,
+    category: "Mutfak Ekipmanları",
+    unit: "adet",
+    image: "https://images.unsplash.com/photo-1585090944524-75496c0e0b21"
   },
   {
     id: 2,
-    name: "Domates",
-    price: 25,
-    category: "Sebze",
-    unit: "kg",
-    image: "/placeholder.svg"
+    name: "Profesyonel Bıçak Seti",
+    price: 2500,
+    category: "Mutfak Gereçleri",
+    unit: "set",
+    image: "https://images.unsplash.com/photo-1593618998160-e34014e67546"
   },
   {
     id: 3,
-    name: "Ayçiçek Yağı",
-    price: 120,
-    category: "Yağlar",
-    unit: "L",
-    image: "/placeholder.svg"
+    name: "Servis Tabakları (6'lı)",
+    price: 1200,
+    category: "Servis Ekipmanları",
+    unit: "set",
+    image: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9"
   },
   {
     id: 4,
-    name: "Pirinç",
-    price: 85,
-    category: "Bakliyat",
-    unit: "kg",
-    image: "/placeholder.svg"
+    name: "Garson Önlüğü",
+    price: 350,
+    category: "Tekstil",
+    unit: "adet",
+    image: "https://images.unsplash.com/photo-1581299894007-aaa50297cf16"
   },
   {
     id: 5,
-    name: "Tavuk Göğsü",
-    price: 180,
-    category: "Et Ürünleri",
-    unit: "kg",
-    image: "/placeholder.svg"
+    name: "Endüstriyel Mikser",
+    price: 8500,
+    category: "Mutfak Ekipmanları",
+    unit: "adet",
+    image: "https://images.unsplash.com/photo-1591261730799-ee4e6c2d16d7"
   },
   {
     id: 6,
-    name: "Patates",
-    price: 30,
-    category: "Sebze",
-    unit: "kg",
-    image: "/placeholder.svg"
+    name: "Masa Örtüsü (10'lu)",
+    price: 750,
+    category: "Tekstil",
+    unit: "set",
+    image: "https://images.unsplash.com/photo-1563290131-a6b9a0e8bea9"
   }
 ];
 
@@ -102,53 +102,66 @@ const ProductCatalog = () => {
   const cartTotal = cart.reduce((total, item) => total + (item.product.price * item.quantity), 0);
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Ürün Kataloğu</h1>
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="outline" className="relative">
-                <ShoppingCart className="h-5 w-5" />
-                {cart.length > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
-                    {cart.length}
-                  </span>
-                )}
+    <div className="min-h-screen bg-gray-50">
+      <div className="bg-white shadow">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center">
+              <img src="/placeholder.svg" alt="Logo" className="h-10 w-auto" />
+              <h1 className="ml-4 text-2xl font-bold text-gray-900">Restoran Tedarik</h1>
+            </div>
+            <div className="flex items-center gap-4">
+              <Button variant="outline" className="flex items-center gap-2">
+                <History className="h-5 w-5" />
+                Geçmiş Siparişler
               </Button>
-            </SheetTrigger>
-            <SheetContent>
-              <SheetHeader>
-                <SheetTitle>Sepetim</SheetTitle>
-              </SheetHeader>
-              <div className="mt-4 space-y-4">
-                {cart.map(item => (
-                  <div key={item.product.id} className="flex justify-between items-center">
-                    <div>
-                      <p className="font-medium">{item.product.name}</p>
-                      <p className="text-sm text-gray-500">
-                        {item.quantity} {item.product.unit} x {item.product.price} TL
-                      </p>
-                    </div>
-                    <p className="font-medium">{item.product.price * item.quantity} TL</p>
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="outline" className="relative">
+                    <ShoppingCart className="h-5 w-5" />
+                    {cart.length > 0 && (
+                      <span className="absolute -top-2 -right-2 bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+                        {cart.length}
+                      </span>
+                    )}
+                  </Button>
+                </SheetTrigger>
+                <SheetContent>
+                  <SheetHeader>
+                    <SheetTitle>Sepetim</SheetTitle>
+                  </SheetHeader>
+                  <div className="mt-4 space-y-4">
+                    {cart.map(item => (
+                      <div key={item.product.id} className="flex justify-between items-center">
+                        <div>
+                          <p className="font-medium">{item.product.name}</p>
+                          <p className="text-sm text-gray-500">
+                            {item.quantity} {item.product.unit} x {item.product.price} TL
+                          </p>
+                        </div>
+                        <p className="font-medium">{item.product.price * item.quantity} TL</p>
+                      </div>
+                    ))}
+                    {cart.length > 0 ? (
+                      <div className="border-t pt-4">
+                        <div className="flex justify-between font-medium">
+                          <span>Toplam</span>
+                          <span>{cartTotal} TL</span>
+                        </div>
+                        <Button className="w-full mt-4">Siparişi Tamamla</Button>
+                      </div>
+                    ) : (
+                      <p className="text-center text-gray-500">Sepetiniz boş</p>
+                    )}
                   </div>
-                ))}
-                {cart.length > 0 ? (
-                  <div className="border-t pt-4">
-                    <div className="flex justify-between font-medium">
-                      <span>Toplam</span>
-                      <span>{cartTotal} TL</span>
-                    </div>
-                    <Button className="w-full mt-4">Siparişi Tamamla</Button>
-                  </div>
-                ) : (
-                  <p className="text-center text-gray-500">Sepetiniz boş</p>
-                )}
-              </div>
-            </SheetContent>
-          </Sheet>
+                </SheetContent>
+              </Sheet>
+            </div>
+          </div>
         </div>
+      </div>
 
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col sm:flex-row gap-4 mb-6">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
@@ -160,8 +173,8 @@ const ProductCatalog = () => {
               className="pl-10"
             />
           </div>
-          <div className="flex gap-2">
-            <Filter className="h-5 w-5 mt-3" />
+          <div className="flex gap-2 items-center">
+            <Filter className="h-5 w-5" />
             {categories.map(category => (
               <Badge
                 key={category}
@@ -179,7 +192,15 @@ const ProductCatalog = () => {
           {filteredProducts.map(product => (
             <Card key={product.id} className="overflow-hidden">
               <div className="aspect-square relative bg-gray-100">
-                <Package className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-12 w-12 text-gray-400" />
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="absolute inset-0 w-full h-full object-cover"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = "/placeholder.svg";
+                  }}
+                />
               </div>
               <CardHeader className="p-4">
                 <CardTitle className="text-lg">{product.name}</CardTitle>
