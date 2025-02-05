@@ -246,6 +246,9 @@ const ProductCatalog = () => {
                       </Button>
                     </DialogTrigger>
                     <DialogContent className="max-w-4xl max-h-[80vh]">
+                      <DialogHeader>
+                        <DialogTitle>Mesajlarım</DialogTitle>
+                      </DialogHeader>
                       <Messages />
                     </DialogContent>
                   </Dialog>
@@ -257,6 +260,9 @@ const ProductCatalog = () => {
                       </Button>
                     </DialogTrigger>
                     <DialogContent className="max-w-4xl max-h-[80vh]">
+                      <DialogHeader>
+                        <DialogTitle>Geçmiş Siparişlerim</DialogTitle>
+                      </DialogHeader>
                       <PastOrders />
                     </DialogContent>
                   </Dialog>
@@ -268,6 +274,9 @@ const ProductCatalog = () => {
                       </Button>
                     </DialogTrigger>
                     <DialogContent className="max-w-4xl max-h-[80vh]">
+                      <DialogHeader>
+                        <DialogTitle>Yardım Merkezi</DialogTitle>
+                      </DialogHeader>
                       <Support />
                     </DialogContent>
                   </Dialog>
