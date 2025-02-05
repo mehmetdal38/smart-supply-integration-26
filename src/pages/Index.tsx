@@ -85,6 +85,60 @@ const products: Product[] = [
     unit: "set",
     image: "https://images.unsplash.com/photo-1563290131-a6b9a0e8bea9",
     supplier: "Tekstil Tedarik A.Ş."
+  },
+  {
+    id: 7,
+    name: "Endüstriyel Fırın",
+    price: 35000,
+    category: "Mutfak Ekipmanları",
+    unit: "adet",
+    image: "https://images.unsplash.com/photo-1590433332541-12e70dd1d4a9",
+    supplier: "Endüstriyel Mutfak Ltd."
+  },
+  {
+    id: 8,
+    name: "Bar Blender",
+    price: 4500,
+    category: "Mutfak Ekipmanları",
+    unit: "adet",
+    image: "https://images.unsplash.com/photo-1570222094114-d054a817e56b",
+    supplier: "Pro Ekipman A.Ş."
+  },
+  {
+    id: 9,
+    name: "Şef Kıyafeti Seti",
+    price: 1200,
+    category: "Tekstil",
+    unit: "set",
+    image: "https://images.unsplash.com/photo-1581299894681-aa3f46faddd7",
+    supplier: "Tekstil Tedarik A.Ş."
+  },
+  {
+    id: 10,
+    name: "Endüstriyel Ocak",
+    price: 15000,
+    category: "Mutfak Ekipmanları",
+    unit: "adet",
+    image: "https://images.unsplash.com/photo-1590433332931-7437f4786d11",
+    supplier: "Endüstriyel Mutfak Ltd."
+  },
+  {
+    id: 11,
+    name: "Servis Tepsileri (4'lü)",
+    price: 800,
+    category: "Servis Ekipmanları",
+    unit: "set",
+    image: "https://images.unsplash.com/photo-1595856619767-ab951ca3b8bf",
+    supplier: "Pro Ekipman A.Ş."
+  },
+  {
+    id: 12,
+    name: "Mutfak Önlüğü (3'lü)",
+    price: 450,
+    category: "Tekstil",
+    unit: "set",
+    image: "https://images.unsplash.com/photo-1581299894681-aa3f46faddd7",
+    supplier: "Tekstil Tedarik A.Ş."
   }
 ];
 
@@ -171,71 +225,77 @@ const ProductCatalog = () => {
                           <span>Toplam</span>
                           <span>{cartTotal} TL</span>
                         </div>
-                        {showPayment ? (
-                          <div className="mt-4 space-y-4">
-                            <div className="flex gap-4">
-                              <Button
-                                variant={paymentMethod === "credit-card" ? "default" : "outline"}
-                                onClick={() => setPaymentMethod("credit-card")}
-                                className="flex-1"
-                              >
-                                Kredi Kartı
-                              </Button>
-                              <Button
-                                variant={paymentMethod === "supplier-finance" ? "default" : "outline"}
-                                onClick={() => setPaymentMethod("supplier-finance")}
-                                className="flex-1"
-                              >
-                                Tedarikçi Finansmanı
-                              </Button>
-                            </div>
-                            <div className="space-y-4 border rounded-lg p-4">
-                              <h3 className="font-medium">Fatura Bilgileri</h3>
-                              <Input
-                                placeholder="Firma Adı"
-                                value={billingInfo.name}
-                                onChange={(e) => setBillingInfo({ ...billingInfo, name: e.target.value })}
-                              />
-                              <Input
-                                placeholder="Vergi No"
-                                value={billingInfo.taxId}
-                                onChange={(e) => setBillingInfo({ ...billingInfo, taxId: e.target.value })}
-                              />
-                              <Input
-                                placeholder="Adres"
-                                value={billingInfo.address}
-                                onChange={(e) => setBillingInfo({ ...billingInfo, address: e.target.value })}
-                              />
-                              <Input
-                                placeholder="Şehir"
-                                value={billingInfo.city}
-                                onChange={(e) => setBillingInfo({ ...billingInfo, city: e.target.value })}
-                              />
-                              <Input
-                                placeholder="Telefon"
-                                value={billingInfo.phone}
-                                onChange={(e) => setBillingInfo({ ...billingInfo, phone: e.target.value })}
-                              />
-                            </div>
-                            {paymentMethod === "credit-card" && (
-                              <div className="space-y-4 border rounded-lg p-4">
-                                <h3 className="font-medium">Kart Bilgileri</h3>
-                                <Input placeholder="Kart Numarası" />
-                                <div className="grid grid-cols-2 gap-4">
-                                  <Input placeholder="Son Kullanma Tarihi" />
-                                  <Input placeholder="CVV" />
-                                </div>
-                              </div>
-                            )}
-                            <Button className="w-full" onClick={() => setShowPayment(false)}>
-                              Ödemeyi Tamamla
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button className="w-full mt-4">
+                              Ödemeye Geç
                             </Button>
-                          </div>
-                        ) : (
-                          <Button className="w-full mt-4" onClick={() => setShowPayment(true)}>
-                            Ödemeye Geç
-                          </Button>
-                        )}
+                          </DialogTrigger>
+                          <DialogContent className="sm:max-w-[425px]">
+                            <DialogHeader>
+                              <DialogTitle>Ödeme Bilgileri</DialogTitle>
+                            </DialogHeader>
+                            <div className="space-y-4">
+                              <div className="flex gap-4">
+                                <Button
+                                  variant={paymentMethod === "credit-card" ? "default" : "outline"}
+                                  onClick={() => setPaymentMethod("credit-card")}
+                                  className="flex-1"
+                                >
+                                  Kredi Kartı
+                                </Button>
+                                <Button
+                                  variant={paymentMethod === "supplier-finance" ? "default" : "outline"}
+                                  onClick={() => setPaymentMethod("supplier-finance")}
+                                  className="flex-1"
+                                >
+                                  Tedarikçi Finansmanı
+                                </Button>
+                              </div>
+                              <div className="space-y-4">
+                                <h3 className="font-medium">Fatura Bilgileri</h3>
+                                <Input
+                                  placeholder="Firma Adı"
+                                  value={billingInfo.name}
+                                  onChange={(e) => setBillingInfo({ ...billingInfo, name: e.target.value })}
+                                />
+                                <Input
+                                  placeholder="Vergi No"
+                                  value={billingInfo.taxId}
+                                  onChange={(e) => setBillingInfo({ ...billingInfo, taxId: e.target.value })}
+                                />
+                                <Input
+                                  placeholder="Adres"
+                                  value={billingInfo.address}
+                                  onChange={(e) => setBillingInfo({ ...billingInfo, address: e.target.value })}
+                                />
+                                <Input
+                                  placeholder="Şehir"
+                                  value={billingInfo.city}
+                                  onChange={(e) => setBillingInfo({ ...billingInfo, city: e.target.value })}
+                                />
+                                <Input
+                                  placeholder="Telefon"
+                                  value={billingInfo.phone}
+                                  onChange={(e) => setBillingInfo({ ...billingInfo, phone: e.target.value })}
+                                />
+                              </div>
+                              {paymentMethod === "credit-card" && (
+                                <div className="space-y-4">
+                                  <h3 className="font-medium">Kart Bilgileri</h3>
+                                  <Input placeholder="Kart Numarası" />
+                                  <div className="grid grid-cols-2 gap-4">
+                                    <Input placeholder="Son Kullanma Tarihi" />
+                                    <Input placeholder="CVV" />
+                                  </div>
+                                </div>
+                              )}
+                              <Button className="w-full" onClick={() => setShowPayment(false)}>
+                                Ödemeyi Tamamla
+                              </Button>
+                            </div>
+                          </DialogContent>
+                        </Dialog>
                       </div>
                     ) : (
                       <p className="text-center text-gray-500">Sepetiniz boş</p>
