@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Search, ShoppingCart, Filter, MessageSquare, Plus, Minus } from "lucide-react";
+import { Search, ShoppingCart, Filter, MessageSquare, Plus, Minus, MessageCircle, Clock, HelpCircle } from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -22,6 +22,7 @@ import {
 import PastOrders from "@/components/PastOrders";
 import Messages from "@/components/Messages";
 import Support from "@/components/Support";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface Product {
   id: number;
@@ -157,7 +158,8 @@ const ProductCatalog = () => {
     city: "",
     phone: ""
   });
-  const [quantities, setQuantities] = useState<{ [key: number]: number }>({}); // For product quantity selection
+  const [quantities, setQuantities] = useState<{ [key: number]: number }>({});
+  const isMobile = useIsMobile();
 
   const categories = Array.from(new Set(products.map(product => product.category)));
 
@@ -169,9 +171,8 @@ const ProductCatalog = () => {
 
   const cartTotalQuantity = cart.reduce((total, item) => total + item.quantity, 0);
   const calculateShippingCost = (totalQuantity: number) => {
-    // Her 5 desi için 50 TL
     const desiRate = 50;
-    const desiPerItem = 5; // Ortalama desi
+    const desiPerItem = 5; 
     const totalDesi = Math.ceil((totalQuantity * desiPerItem) / 5);
     return totalDesi * desiRate;
   };
@@ -188,7 +189,7 @@ const ProductCatalog = () => {
       }
       return [...currentCart, { product, quantity }];
     });
-    setQuantities(prev => ({ ...prev, [product.id]: 1 })); // Reset quantity after adding to cart
+    setQuantities(prev => ({ ...prev, [product.id]: 1 }));
   };
 
   const updateCartQuantity = (productId: number, newQuantity: number) => {
@@ -236,155 +237,317 @@ const ProductCatalog = () => {
               <h1 className="ml-4 text-2xl font-bold text-gray-900">Restoran Tedarik</h1>
             </div>
             <div className="flex items-center justify-center gap-4 mt-4">
-              <Messages />
-              <PastOrders />
-              <Support />
-              <Sheet>
-                <SheetTrigger asChild>
-                  <Button variant="outline" className="relative">
-                    <ShoppingCart className="h-5 w-5" />
-                    {cartTotalQuantity > 0 && (
-                      <span className="absolute -top-2 -right-2 bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
-                        {cartTotalQuantity}
-                      </span>
-                    )}
+              {isMobile ? (
+                <>
+                  <Button variant="ghost" size="icon" asChild>
+                    <MessageCircle className="h-5 w-5" />
                   </Button>
-                </SheetTrigger>
-                <SheetContent className="w-full sm:max-w-lg">
-                  <SheetHeader>
-                    <SheetTitle>Sepetim</SheetTitle>
-                  </SheetHeader>
-                  <div className="mt-4 space-y-4">
-                    {cart.map(item => (
-                      <div key={item.product.id} className="flex justify-between items-center">
-                        <div className="flex-1">
-                          <p className="font-medium">{item.product.name}</p>
-                          <p className="text-sm text-gray-500">
-                            {item.product.price} TL
-                          </p>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Button 
-                            size="sm" 
-                            variant="outline"
-                            onClick={() => updateCartQuantity(item.product.id, item.quantity - 1)}
-                          >
-                            <Minus className="h-3 w-3" />
-                          </Button>
-                          <span className="w-8 text-center">
-                            {item.quantity}
+                  <Button variant="ghost" size="icon" asChild>
+                    <Clock className="h-5 w-5" />
+                  </Button>
+                  <Button variant="ghost" size="icon" asChild>
+                    <HelpCircle className="h-5 w-5" />
+                  </Button>
+                  <Sheet>
+                    <SheetTrigger asChild>
+                      <Button variant="outline" className="relative">
+                        <ShoppingCart className="h-5 w-5" />
+                        {cartTotalQuantity > 0 && (
+                          <span className="absolute -top-2 -right-2 bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+                            {cartTotalQuantity}
                           </span>
-                          <Button 
-                            size="sm" 
-                            variant="outline"
-                            onClick={() => updateCartQuantity(item.product.id, item.quantity + 1)}
-                          >
-                            <Plus className="h-3 w-3" />
-                          </Button>
-                          <Button 
-                            size="sm" 
-                            variant="destructive"
-                            onClick={() => removeFromCart(item.product.id)}
-                          >
-                            <Minus className="h-3 w-3" />
-                          </Button>
-                        </div>
-                      </div>
-                    ))}
-                    {cart.length > 0 ? (
-                      <div className="border-t pt-4">
-                        <div className="space-y-2">
-                          <div className="flex justify-between font-medium">
-                            <span>Ara Toplam</span>
-                            <span>{cartTotal} TL</span>
-                          </div>
-                          <div className="flex justify-between text-sm">
-                            <span>Kargo Bedeli</span>
-                            <span>{calculateShippingCost(cartTotalQuantity)} TL</span>
-                          </div>
-                          <div className="flex justify-between font-bold text-lg border-t pt-2">
-                            <span>Toplam</span>
-                            <span>{cartTotal + calculateShippingCost(cartTotalQuantity)} TL</span>
-                          </div>
-                        </div>
-                        <Dialog>
-                          <DialogTrigger asChild>
-                            <Button className="w-full mt-4">
-                              Ödemeye Geç
-                            </Button>
-                          </DialogTrigger>
-                          <DialogContent className="sm:max-w-[425px]">
-                            <DialogHeader>
-                              <DialogTitle>Ödeme Bilgileri</DialogTitle>
-                            </DialogHeader>
-                            <div className="space-y-4">
-                              <div className="flex gap-4">
-                                <Button
-                                  variant={paymentMethod === "credit-card" ? "default" : "outline"}
-                                  onClick={() => setPaymentMethod("credit-card")}
-                                  className="flex-1"
-                                >
-                                  Kredi Kartı
-                                </Button>
-                                <Button
-                                  variant={paymentMethod === "supplier-finance" ? "default" : "outline"}
-                                  onClick={() => setPaymentMethod("supplier-finance")}
-                                  className="flex-1"
-                                >
-                                  Tedarikçi Finansmanı
-                                </Button>
-                              </div>
-                              <div className="space-y-4">
-                                <h3 className="font-medium">Fatura Bilgileri</h3>
-                                <Input
-                                  placeholder="Firma Adı"
-                                  value={billingInfo.name}
-                                  onChange={(e) => setBillingInfo({ ...billingInfo, name: e.target.value })}
-                                />
-                                <Input
-                                  placeholder="Vergi No"
-                                  value={billingInfo.taxId}
-                                  onChange={(e) => setBillingInfo({ ...billingInfo, taxId: e.target.value })}
-                                />
-                                <Input
-                                  placeholder="Adres"
-                                  value={billingInfo.address}
-                                  onChange={(e) => setBillingInfo({ ...billingInfo, address: e.target.value })}
-                                />
-                                <Input
-                                  placeholder="Şehir"
-                                  value={billingInfo.city}
-                                  onChange={(e) => setBillingInfo({ ...billingInfo, city: e.target.value })}
-                                />
-                                <Input
-                                  placeholder="Telefon"
-                                  value={billingInfo.phone}
-                                  onChange={(e) => setBillingInfo({ ...billingInfo, phone: e.target.value })}
-                                />
-                              </div>
-                              {paymentMethod === "credit-card" && (
-                                <div className="space-y-4">
-                                  <h3 className="font-medium">Kart Bilgileri</h3>
-                                  <Input placeholder="Kart Numarası" />
-                                  <div className="grid grid-cols-2 gap-4">
-                                    <Input placeholder="Son Kullanma Tarihi" />
-                                    <Input placeholder="CVV" />
-                                  </div>
-                                </div>
-                              )}
-                              <Button className="w-full" onClick={() => setShowPayment(false)}>
-                                Ödemeyi Tamamla
+                        )}
+                      </Button>
+                    </SheetTrigger>
+                    <SheetContent className="w-full sm:max-w-lg">
+                      <SheetHeader>
+                        <SheetTitle>Sepetim</SheetTitle>
+                      </SheetHeader>
+                      <div className="mt-4 space-y-4">
+                        {cart.map(item => (
+                          <div key={item.product.id} className="flex justify-between items-center">
+                            <div className="flex-1">
+                              <p className="font-medium">{item.product.name}</p>
+                              <p className="text-sm text-gray-500">
+                                {item.product.price} TL
+                              </p>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <Button 
+                                size="sm" 
+                                variant="outline"
+                                onClick={() => updateCartQuantity(item.product.id, item.quantity - 1)}
+                              >
+                                <Minus className="h-3 w-3" />
+                              </Button>
+                              <span className="w-8 text-center">
+                                {item.quantity}
+                              </span>
+                              <Button 
+                                size="sm" 
+                                variant="outline"
+                                onClick={() => updateCartQuantity(item.product.id, item.quantity + 1)}
+                              >
+                                <Plus className="h-3 w-3" />
+                              </Button>
+                              <Button 
+                                size="sm" 
+                                variant="destructive"
+                                onClick={() => removeFromCart(item.product.id)}
+                              >
+                                <Minus className="h-3 w-3" />
                               </Button>
                             </div>
-                          </DialogContent>
-                        </Dialog>
+                          </div>
+                        ))}
+                        {cart.length > 0 ? (
+                          <div className="border-t pt-4">
+                            <div className="space-y-2">
+                              <div className="flex justify-between font-medium">
+                                <span>Ara Toplam</span>
+                                <span>{cartTotal} TL</span>
+                              </div>
+                              <div className="flex justify-between text-sm">
+                                <span>Kargo Bedeli</span>
+                                <span>{calculateShippingCost(cartTotalQuantity)} TL</span>
+                              </div>
+                              <div className="flex justify-between font-bold text-lg border-t pt-2">
+                                <span>Toplam</span>
+                                <span>{cartTotal + calculateShippingCost(cartTotalQuantity)} TL</span>
+                              </div>
+                            </div>
+                            <Dialog>
+                              <DialogTrigger asChild>
+                                <Button className="w-full mt-4">
+                                  Ödemeye Geç
+                                </Button>
+                              </DialogTrigger>
+                              <DialogContent className="sm:max-w-[425px]">
+                                <DialogHeader>
+                                  <DialogTitle>Ödeme Bilgileri</DialogTitle>
+                                </DialogHeader>
+                                <div className="space-y-4">
+                                  <div className="flex gap-4">
+                                    <Button
+                                      variant={paymentMethod === "credit-card" ? "default" : "outline"}
+                                      onClick={() => setPaymentMethod("credit-card")}
+                                      className="flex-1"
+                                    >
+                                      Kredi Kartı
+                                    </Button>
+                                    <Button
+                                      variant={paymentMethod === "supplier-finance" ? "default" : "outline"}
+                                      onClick={() => setPaymentMethod("supplier-finance")}
+                                      className="flex-1"
+                                    >
+                                      Tedarikçi Finansmanı
+                                    </Button>
+                                  </div>
+                                  <div className="space-y-4">
+                                    <h3 className="font-medium">Fatura Bilgileri</h3>
+                                    <Input
+                                      placeholder="Firma Adı"
+                                      value={billingInfo.name}
+                                      onChange={(e) => setBillingInfo({ ...billingInfo, name: e.target.value })}
+                                    />
+                                    <Input
+                                      placeholder="Vergi No"
+                                      value={billingInfo.taxId}
+                                      onChange={(e) => setBillingInfo({ ...billingInfo, taxId: e.target.value })}
+                                    />
+                                    <Input
+                                      placeholder="Adres"
+                                      value={billingInfo.address}
+                                      onChange={(e) => setBillingInfo({ ...billingInfo, address: e.target.value })}
+                                    />
+                                    <Input
+                                      placeholder="Şehir"
+                                      value={billingInfo.city}
+                                      onChange={(e) => setBillingInfo({ ...billingInfo, city: e.target.value })}
+                                    />
+                                    <Input
+                                      placeholder="Telefon"
+                                      value={billingInfo.phone}
+                                      onChange={(e) => setBillingInfo({ ...billingInfo, phone: e.target.value })}
+                                    />
+                                  </div>
+                                  {paymentMethod === "credit-card" && (
+                                    <div className="space-y-4">
+                                      <h3 className="font-medium">Kart Bilgileri</h3>
+                                      <Input placeholder="Kart Numarası" />
+                                      <div className="grid grid-cols-2 gap-4">
+                                        <Input placeholder="Son Kullanma Tarihi" />
+                                        <Input placeholder="CVV" />
+                                      </div>
+                                    </div>
+                                  )}
+                                  <Button className="w-full" onClick={() => setShowPayment(false)}>
+                                    Ödemeyi Tamamla
+                                  </Button>
+                                </div>
+                              </DialogContent>
+                            </Dialog>
+                          </div>
+                        ) : (
+                          <p className="text-center text-gray-500">Sepetiniz boş</p>
+                        )}
                       </div>
-                    ) : (
-                      <p className="text-center text-gray-500">Sepetiniz boş</p>
-                    )}
-                  </div>
-                </SheetContent>
-              </Sheet>
+                    </SheetContent>
+                  </Sheet>
+                </>
+              ) : (
+                <>
+                  <Messages />
+                  <PastOrders />
+                  <Support />
+                  <Sheet>
+                    <SheetTrigger asChild>
+                      <Button variant="outline" className="relative">
+                        <ShoppingCart className="h-5 w-5" />
+                        {cartTotalQuantity > 0 && (
+                          <span className="absolute -top-2 -right-2 bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+                            {cartTotalQuantity}
+                          </span>
+                        )}
+                      </Button>
+                    </SheetTrigger>
+                    <SheetContent className="w-full sm:max-w-lg">
+                      <SheetHeader>
+                        <SheetTitle>Sepetim</SheetTitle>
+                      </SheetHeader>
+                      <div className="mt-4 space-y-4">
+                        {cart.map(item => (
+                          <div key={item.product.id} className="flex justify-between items-center">
+                            <div className="flex-1">
+                              <p className="font-medium">{item.product.name}</p>
+                              <p className="text-sm text-gray-500">
+                                {item.product.price} TL
+                              </p>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <Button 
+                                size="sm" 
+                                variant="outline"
+                                onClick={() => updateCartQuantity(item.product.id, item.quantity - 1)}
+                              >
+                                <Minus className="h-3 w-3" />
+                              </Button>
+                              <span className="w-8 text-center">
+                                {item.quantity}
+                              </span>
+                              <Button 
+                                size="sm" 
+                                variant="outline"
+                                onClick={() => updateCartQuantity(item.product.id, item.quantity + 1)}
+                              >
+                                <Plus className="h-3 w-3" />
+                              </Button>
+                              <Button 
+                                size="sm" 
+                                variant="destructive"
+                                onClick={() => removeFromCart(item.product.id)}
+                              >
+                                <Minus className="h-3 w-3" />
+                              </Button>
+                            </div>
+                          </div>
+                        ))}
+                        {cart.length > 0 ? (
+                          <div className="border-t pt-4">
+                            <div className="space-y-2">
+                              <div className="flex justify-between font-medium">
+                                <span>Ara Toplam</span>
+                                <span>{cartTotal} TL</span>
+                              </div>
+                              <div className="flex justify-between text-sm">
+                                <span>Kargo Bedeli</span>
+                                <span>{calculateShippingCost(cartTotalQuantity)} TL</span>
+                              </div>
+                              <div className="flex justify-between font-bold text-lg border-t pt-2">
+                                <span>Toplam</span>
+                                <span>{cartTotal + calculateShippingCost(cartTotalQuantity)} TL</span>
+                              </div>
+                            </div>
+                            <Dialog>
+                              <DialogTrigger asChild>
+                                <Button className="w-full mt-4">
+                                  Ödemeye Geç
+                                </Button>
+                              </DialogTrigger>
+                              <DialogContent className="sm:max-w-[425px]">
+                                <DialogHeader>
+                                  <DialogTitle>Ödeme Bilgileri</DialogTitle>
+                                </DialogHeader>
+                                <div className="space-y-4">
+                                  <div className="flex gap-4">
+                                    <Button
+                                      variant={paymentMethod === "credit-card" ? "default" : "outline"}
+                                      onClick={() => setPaymentMethod("credit-card")}
+                                      className="flex-1"
+                                    >
+                                      Kredi Kartı
+                                    </Button>
+                                    <Button
+                                      variant={paymentMethod === "supplier-finance" ? "default" : "outline"}
+                                      onClick={() => setPaymentMethod("supplier-finance")}
+                                      className="flex-1"
+                                    >
+                                      Tedarikçi Finansmanı
+                                    </Button>
+                                  </div>
+                                  <div className="space-y-4">
+                                    <h3 className="font-medium">Fatura Bilgileri</h3>
+                                    <Input
+                                      placeholder="Firma Adı"
+                                      value={billingInfo.name}
+                                      onChange={(e) => setBillingInfo({ ...billingInfo, name: e.target.value })}
+                                    />
+                                    <Input
+                                      placeholder="Vergi No"
+                                      value={billingInfo.taxId}
+                                      onChange={(e) => setBillingInfo({ ...billingInfo, taxId: e.target.value })}
+                                    />
+                                    <Input
+                                      placeholder="Adres"
+                                      value={billingInfo.address}
+                                      onChange={(e) => setBillingInfo({ ...billingInfo, address: e.target.value })}
+                                    />
+                                    <Input
+                                      placeholder="Şehir"
+                                      value={billingInfo.city}
+                                      onChange={(e) => setBillingInfo({ ...billingInfo, city: e.target.value })}
+                                    />
+                                    <Input
+                                      placeholder="Telefon"
+                                      value={billingInfo.phone}
+                                      onChange={(e) => setBillingInfo({ ...billingInfo, phone: e.target.value })}
+                                    />
+                                  </div>
+                                  {paymentMethod === "credit-card" && (
+                                    <div className="space-y-4">
+                                      <h3 className="font-medium">Kart Bilgileri</h3>
+                                      <Input placeholder="Kart Numarası" />
+                                      <div className="grid grid-cols-2 gap-4">
+                                        <Input placeholder="Son Kullanma Tarihi" />
+                                        <Input placeholder="CVV" />
+                                      </div>
+                                    </div>
+                                  )}
+                                  <Button className="w-full" onClick={() => setShowPayment(false)}>
+                                    Ödemeyi Tamamla
+                                  </Button>
+                                </div>
+                              </DialogContent>
+                            </Dialog>
+                          </div>
+                        ) : (
+                          <p className="text-center text-gray-500">Sepetiniz boş</p>
+                        )}
+                      </div>
+                    </SheetContent>
+                  </Sheet>
+                </>
+              )}
             </div>
           </div>
         </div>
