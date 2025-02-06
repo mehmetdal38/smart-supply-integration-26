@@ -32,6 +32,8 @@ interface Product {
   unit: string;
   image: string;
   supplier: string;
+  description?: string;
+  additionalImages?: string[];
 }
 
 const products: Product[] = [
@@ -42,7 +44,13 @@ const products: Product[] = [
     category: "Mutfak Ekipmanları",
     unit: "adet",
     image: "https://images.unsplash.com/photo-1585090944524-75496c0e0b21",
-    supplier: "Endüstriyel Mutfak Ltd."
+    supplier: "Endüstriyel Mutfak Ltd.",
+    description: "Profesyonel mutfaklar için yüksek kapasiteli, enerji verimli endüstriyel bulaşık makinesi. Saatte 500 tabak yıkama kapasitesi.",
+    additionalImages: [
+      "https://images.unsplash.com/photo-1585090944524-75496c0e0b21",
+      "https://images.unsplash.com/photo-1585090944524-75496c0e0b22",
+      "https://images.unsplash.com/photo-1585090944524-75496c0e0b23"
+    ]
   },
   {
     id: 2,
@@ -51,7 +59,13 @@ const products: Product[] = [
     category: "Mutfak Gereçleri",
     unit: "set",
     image: "https://images.unsplash.com/photo-1593618998160-e34014e67546",
-    supplier: "Pro Ekipman A.Ş."
+    supplier: "Pro Ekipman A.Ş.",
+    description: "Yüksek kaliteli paslanmaz çelikten üretilmiş, profesyonel kullanım için ideal bıçak seti.",
+    additionalImages: [
+      "https://images.unsplash.com/photo-1593618998160-e34014e67546",
+      "https://images.unsplash.com/photo-1593618998160-e34014e67547",
+      "https://images.unsplash.com/photo-1593618998160-e34014e67548"
+    ]
   },
   {
     id: 3,
@@ -60,7 +74,13 @@ const products: Product[] = [
     category: "Servis Ekipmanları",
     unit: "set",
     image: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9",
-    supplier: "Endüstriyel Mutfak Ltd."
+    supplier: "Endüstriyel Mutfak Ltd.",
+    description: "Şık tasarımıyla dikkat çeken, dayanıklı servis tabakları seti.",
+    additionalImages: [
+      "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9",
+      "https://images.unsplash.com/photo-1618160702438-9b02ab6515c10",
+      "https://images.unsplash.com/photo-1618160702438-9b02ab6515c11"
+    ]
   },
   {
     id: 4,
@@ -69,7 +89,13 @@ const products: Product[] = [
     category: "Tekstil",
     unit: "adet",
     image: "https://images.unsplash.com/photo-1581299894007-aaa50297cf16",
-    supplier: "Tekstil Tedarik A.Ş."
+    supplier: "Tekstil Tedarik A.Ş.",
+    description: "Dayanıklı ve şık garson önlüğü, restoranlar için ideal.",
+    additionalImages: [
+      "https://images.unsplash.com/photo-1581299894007-aaa50297cf16",
+      "https://images.unsplash.com/photo-1581299894007-aaa50297cf17",
+      "https://images.unsplash.com/photo-1581299894007-aaa50297cf18"
+    ]
   },
   {
     id: 5,
@@ -78,7 +104,13 @@ const products: Product[] = [
     category: "Mutfak Ekipmanları",
     unit: "adet",
     image: "https://images.unsplash.com/photo-1591261730799-ee4e6c2d16d7",
-    supplier: "Pro Ekipman A.Ş."
+    supplier: "Pro Ekipman A.Ş.",
+    description: "Yüksek kapasiteli endüstriyel mikser, profesyonel mutfaklar için tasarlandı.",
+    additionalImages: [
+      "https://images.unsplash.com/photo-1591261730799-ee4e6c2d16d7",
+      "https://images.unsplash.com/photo-1591261730799-ee4e6c2d16d8",
+      "https://images.unsplash.com/photo-1591261730799-ee4e6c2d16d9"
+    ]
   },
   {
     id: 6,
@@ -87,7 +119,13 @@ const products: Product[] = [
     category: "Tekstil",
     unit: "set",
     image: "https://images.unsplash.com/photo-1563290131-a6b9a0e8bea9",
-    supplier: "Tekstil Tedarik A.Ş."
+    supplier: "Tekstil Tedarik A.Ş.",
+    description: "Şık masa örtüleri seti, her türlü etkinlik için uygundur.",
+    additionalImages: [
+      "https://images.unsplash.com/photo-1563290131-a6b9a0e8bea9",
+      "https://images.unsplash.com/photo-1563290131-a6b9a0e8bea10",
+      "https://images.unsplash.com/photo-1563290131-a6b9a0e8bea11"
+    ]
   },
   {
     id: 7,
@@ -96,7 +134,13 @@ const products: Product[] = [
     category: "Mutfak Ekipmanları",
     unit: "adet",
     image: "https://images.unsplash.com/photo-1590433332541-12e70dd1d4a9",
-    supplier: "Endüstriyel Mutfak Ltd."
+    supplier: "Endüstriyel Mutfak Ltd.",
+    description: "Yüksek kapasiteli endüstriyel fırın, profesyonel mutfaklar için idealdir.",
+    additionalImages: [
+      "https://images.unsplash.com/photo-1590433332541-12e70dd1d4a9",
+      "https://images.unsplash.com/photo-1590433332541-12e70dd1d4a10",
+      "https://images.unsplash.com/photo-1590433332541-12e70dd1d4a11"
+    ]
   },
   {
     id: 8,
@@ -105,7 +149,13 @@ const products: Product[] = [
     category: "Mutfak Ekipmanları",
     unit: "adet",
     image: "https://images.unsplash.com/photo-1570222094114-d054a817e56b",
-    supplier: "Pro Ekipman A.Ş."
+    supplier: "Pro Ekipman A.Ş.",
+    description: "Kafe ve restoranlar için ideal bar blender.",
+    additionalImages: [
+      "https://images.unsplash.com/photo-1570222094114-d054a817e56b",
+      "https://images.unsplash.com/photo-1570222094114-d054a817e56c",
+      "https://images.unsplash.com/photo-1570222094114-d054a817e56d"
+    ]
   },
   {
     id: 9,
@@ -114,7 +164,13 @@ const products: Product[] = [
     category: "Tekstil",
     unit: "set",
     image: "https://images.unsplash.com/photo-1581299894681-aa3f46faddd7",
-    supplier: "Tekstil Tedarik A.Ş."
+    supplier: "Tekstil Tedarik A.Ş.",
+    description: "Profesyonel şef kıyafeti seti, restoranlar için tasarlandı.",
+    additionalImages: [
+      "https://images.unsplash.com/photo-1581299894681-aa3f46faddd7",
+      "https://images.unsplash.com/photo-1581299894681-aa3f46faddd8",
+      "https://images.unsplash.com/photo-1581299894681-aa3f46faddd9"
+    ]
   },
   {
     id: 10,
@@ -123,7 +179,13 @@ const products: Product[] = [
     category: "Mutfak Ekipmanları",
     unit: "adet",
     image: "https://images.unsplash.com/photo-1590433332931-7437f4786d11",
-    supplier: "Endüstriyel Mutfak Ltd."
+    supplier: "Endüstriyel Mutfak Ltd.",
+    description: "Yüksek performanslı endüstriyel ocak, profesyonel mutfaklar için idealdir.",
+    additionalImages: [
+      "https://images.unsplash.com/photo-1590433332931-7437f4786d11",
+      "https://images.unsplash.com/photo-1590433332931-7437f4786d12",
+      "https://images.unsplash.com/photo-1590433332931-7437f4786d13"
+    ]
   },
   {
     id: 11,
@@ -132,7 +194,13 @@ const products: Product[] = [
     category: "Servis Ekipmanları",
     unit: "set",
     image: "https://images.unsplash.com/photo-1595856619767-ab951ca3b8bf",
-    supplier: "Pro Ekipman A.Ş."
+    supplier: "Pro Ekipman A.Ş.",
+    description: "Dayanıklı servis tepsileri seti, her türlü etkinlik için uygundur.",
+    additionalImages: [
+      "https://images.unsplash.com/photo-1595856619767-ab951ca3b8bf",
+      "https://images.unsplash.com/photo-1595856619767-ab951ca3b8bg",
+      "https://images.unsplash.com/photo-1595856619767-ab951ca3b8bh"
+    ]
   },
   {
     id: 12,
@@ -141,7 +209,13 @@ const products: Product[] = [
     category: "Tekstil",
     unit: "set",
     image: "https://images.unsplash.com/photo-1581299894681-aa3f46faddd7",
-    supplier: "Tekstil Tedarik A.Ş."
+    supplier: "Tekstil Tedarik A.Ş.",
+    description: "Şık ve dayanıklı mutfak önlükleri seti.",
+    additionalImages: [
+      "https://images.unsplash.com/photo-1581299894681-aa3f46faddd7",
+      "https://images.unsplash.com/photo-1581299894681-aa3f46faddd8",
+      "https://images.unsplash.com/photo-1581299894681-aa3f46faddd9"
+    ]
   }
 ];
 
@@ -574,20 +648,94 @@ const ProductCatalog = () => {
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
           {filteredProducts.map(product => (
             <Card key={product.id} className="flex flex-col">
-              <div className="aspect-square relative bg-gray-100">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="absolute inset-0 w-full h-full object-cover"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.src = "https://www.tacev.com/image/cache/catalog/image/cache/catalog/TENCERELER/tt-1508_dekube-1200x1200.webp";
-                  }}
-                />
-              </div>
-              <CardHeader className="p-4 flex-grow">
-                <CardTitle className="text-lg line-clamp-2">{product.name}</CardTitle>
-              </CardHeader>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <div className="cursor-pointer">
+                    <div className="aspect-square relative bg-gray-100">
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="absolute inset-0 w-full h-full object-cover"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = "https://www.tacev.com/image/cache/catalog/image/cache/catalog/TENCERELER/tt-1508_dekube-1200x1200.webp";
+                        }}
+                      />
+                    </div>
+                    <CardHeader className="p-4 flex-grow">
+                      <CardTitle className="text-lg line-clamp-2">{product.name}</CardTitle>
+                    </CardHeader>
+                  </div>
+                </DialogTrigger>
+                <DialogContent className="max-w-3xl">
+                  <DialogHeader>
+                    <DialogTitle>{product.name}</DialogTitle>
+                    <DialogDescription>
+                      {product.description || "Ürün açıklaması bulunmamaktadır."}
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-4">
+                      <div className="aspect-square relative bg-gray-100 rounded-lg overflow-hidden">
+                        <img
+                          src={product.image}
+                          alt={product.name}
+                          className="absolute inset-0 w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="grid grid-cols-3 gap-2">
+                        {product.additionalImages?.map((img, index) => (
+                          <div key={index} className="aspect-square relative bg-gray-100 rounded-lg overflow-hidden">
+                            <img
+                              src={img}
+                              alt={`${product.name} ${index + 1}`}
+                              className="absolute inset-0 w-full h-full object-cover"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="space-y-4">
+                      <div>
+                        <h3 className="font-semibold">Ürün Detayları</h3>
+                        <p className="text-sm text-gray-500">Kategori: {product.category}</p>
+                        <p className="text-sm text-gray-500">Tedarikçi: {product.supplier}</p>
+                        <p className="text-sm text-gray-500">Birim: {product.unit}</p>
+                        <p className="font-semibold text-lg mt-2">{product.price} TL</p>
+                      </div>
+                      <div className="flex flex-col gap-2">
+                        <div className="flex items-center gap-1 justify-end">
+                          <Button 
+                            size="sm" 
+                            variant="outline"
+                            onClick={() => decrementQuantity(product.id)}
+                          >
+                            <Minus className="h-3 w-3" />
+                          </Button>
+                          <span className="w-8 text-center">
+                            {quantities[product.id] || 1}
+                          </span>
+                          <Button 
+                            size="sm" 
+                            variant="outline"
+                            onClick={() => incrementQuantity(product.id)}
+                          >
+                            <Plus className="h-3 w-3" />
+                          </Button>
+                        </div>
+                        <Button 
+                          size="sm"
+                          className="w-full"
+                          onClick={() => addToCart(product, quantities[product.id] || 1)}
+                        >
+                          <ShoppingCart className="h-4 w-4 mr-2" />
+                          Sepete Ekle
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </DialogContent>
+              </Dialog>
               <CardContent className="p-4 pt-0">
                 <div className="flex flex-col gap-2">
                   <Badge variant="secondary" className="w-fit">
