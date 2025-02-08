@@ -28,7 +28,7 @@ export const ProductCard = ({
   onAddToCart,
 }: ProductCardProps) => {
   return (
-    <Card className="flex flex-col">
+    <Card className="flex flex-col h-full">
       <Dialog>
         <DialogTrigger asChild>
           <div className="cursor-pointer">
@@ -43,8 +43,8 @@ export const ProductCard = ({
                 }}
               />
             </div>
-            <CardHeader className="p-4 flex-grow">
-              <CardTitle className="text-lg line-clamp-2">{product.name}</CardTitle>
+            <CardHeader className="p-4">
+              <CardTitle className="text-sm h-[40px] line-clamp-2 overflow-hidden">{product.name}</CardTitle>
             </CardHeader>
           </div>
         </DialogTrigger>
@@ -131,12 +131,12 @@ export const ProductCard = ({
           </div>
         </DialogContent>
       </Dialog>
-      <CardContent className="p-4 pt-0">
-        <div className="flex flex-col gap-2">
-          <Badge variant="secondary" className="w-fit">
+      <CardContent className="p-4 pt-0 flex flex-col flex-grow">
+        <div className="flex flex-col h-full">
+          <Badge variant="secondary" className="w-fit mb-2">
             {product.category}
           </Badge>
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center mb-2">
             <p className="font-medium">{product.price} TL</p>
             <Dialog>
               <DialogTrigger asChild>
@@ -160,8 +160,8 @@ export const ProductCard = ({
               </DialogContent>
             </Dialog>
           </div>
-          <div className="flex flex-col gap-2 mt-2">
-            <div className="flex items-center gap-1 justify-end">
+          <div className="mt-auto">
+            <div className="flex items-center gap-1 justify-end mb-2">
               <Button 
                 size="sm" 
                 variant="outline"
@@ -185,7 +185,7 @@ export const ProductCard = ({
               className="w-full"
               onClick={() => onAddToCart(product, quantity)}
             >
-              <ShoppingCart className="h-4 w-4" />
+              <ShoppingCart className="h-4 w-4 mr-2" />
               Sepete Ekle
             </Button>
           </div>
