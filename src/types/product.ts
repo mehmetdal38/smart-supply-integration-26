@@ -9,4 +9,5 @@ export interface Product {
   supplier: string;
   description?: string;
   additionalImages?: string[];
+  desi: number;
 }

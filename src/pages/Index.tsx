@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -18,6 +17,7 @@ const products: Product[] = [
     image: "https://images.unsplash.com/photo-1585090944524-75496c0e0b21",
     supplier: "Endüstriyel Mutfak Ltd.",
     description: "Profesyonel mutfaklar için yüksek kapasiteli, enerji verimli endüstriyel bulaşık makinesi. Saatte 500 tabak yıkama kapasitesi.",
+    desi: 50,
     additionalImages: [
       "https://images.unsplash.com/photo-1585090944524-75496c0e0b21",
       "https://images.unsplash.com/photo-1585090944524-75496c0e0b22",
@@ -33,6 +33,7 @@ const products: Product[] = [
     image: "https://images.unsplash.com/photo-1593618998160-e34014e67546",
     supplier: "Pro Ekipman A.Ş.",
     description: "Yüksek kaliteli paslanmaz çelikten üretilmiş, profesyonel kullanım için ideal bıçak seti.",
+    desi: 3,
     additionalImages: [
       "https://images.unsplash.com/photo-1593618998160-e34014e67546",
       "https://images.unsplash.com/photo-1593618998160-e34014e67547",
@@ -48,6 +49,7 @@ const products: Product[] = [
     image: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9",
     supplier: "Endüstriyel Mutfak Ltd.",
     description: "Şık tasarımıyla dikkat çeken, dayanıklı servis tabakları seti.",
+    desi: 5,
     additionalImages: [
       "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9",
       "https://images.unsplash.com/photo-1618160702438-9b02ab6515c10",
@@ -63,6 +65,7 @@ const products: Product[] = [
     image: "https://images.unsplash.com/photo-1581299894007-aaa50297cf16",
     supplier: "Tekstil Tedarik A.Ş.",
     description: "Dayanıklı ve şık garson önlüğü, restoranlar için ideal.",
+    desi: 1,
     additionalImages: [
       "https://images.unsplash.com/photo-1581299894007-aaa50297cf16",
       "https://images.unsplash.com/photo-1581299894007-aaa50297cf17",
@@ -78,6 +81,7 @@ const products: Product[] = [
     image: "https://images.unsplash.com/photo-1591261730799-ee4e6c2d16d7",
     supplier: "Pro Ekipman A.Ş.",
     description: "Yüksek kapasiteli endüstriyel mikser, profesyonel mutfaklar için tasarlandı.",
+    desi: 15,
     additionalImages: [
       "https://images.unsplash.com/photo-1591261730799-ee4e6c2d16d7",
       "https://images.unsplash.com/photo-1591261730799-ee4e6c2d16d8",
@@ -93,6 +97,7 @@ const products: Product[] = [
     image: "https://images.unsplash.com/photo-1563290131-a6b9a0e8bea9",
     supplier: "Tekstil Tedarik A.Ş.",
     description: "Şık masa örtüleri seti, her türlü etkinlik için uygundur.",
+    desi: 2,
     additionalImages: [
       "https://images.unsplash.com/photo-1563290131-a6b9a0e8bea9",
       "https://images.unsplash.com/photo-1563290131-a6b9a0e8bea10",
@@ -108,6 +113,7 @@ const products: Product[] = [
     image: "https://images.unsplash.com/photo-1590433332541-12e70dd1d4a9",
     supplier: "Endüstriyel Mutfak Ltd.",
     description: "Yüksek kapasiteli endüstriyel fırın, profesyonel mutfaklar için idealdir.",
+    desi: 100,
     additionalImages: [
       "https://images.unsplash.com/photo-1590433332541-12e70dd1d4a9",
       "https://images.unsplash.com/photo-1590433332541-12e70dd1d4a10",
@@ -123,6 +129,7 @@ const products: Product[] = [
     image: "https://images.unsplash.com/photo-1570222094114-d054a817e56b",
     supplier: "Pro Ekipman A.Ş.",
     description: "Kafe ve restoranlar için ideal bar blender.",
+    desi: 4,
     additionalImages: [
       "https://images.unsplash.com/photo-1570222094114-d054a817e56b",
       "https://images.unsplash.com/photo-1570222094114-d054a817e56c",
@@ -138,6 +145,7 @@ const products: Product[] = [
     image: "https://images.unsplash.com/photo-1581299894681-aa3f46faddd7",
     supplier: "Tekstil Tedarik A.Ş.",
     description: "Profesyonel şef kıyafeti seti, restoranlar için tasarlandı.",
+    desi: 2,
     additionalImages: [
       "https://images.unsplash.com/photo-1581299894681-aa3f46faddd7",
       "https://images.unsplash.com/photo-1581299894681-aa3f46faddd8",
@@ -153,6 +161,7 @@ const products: Product[] = [
     image: "https://images.unsplash.com/photo-1590433332931-7437f4786d11",
     supplier: "Endüstriyel Mutfak Ltd.",
     description: "Yüksek performanslı endüstriyel ocak, profesyonel mutfaklar için idealdir.",
+    desi: 40,
     additionalImages: [
       "https://images.unsplash.com/photo-1590433332931-7437f4786d11",
       "https://images.unsplash.com/photo-1590433332931-7437f4786d12",
@@ -168,6 +177,7 @@ const products: Product[] = [
     image: "https://images.unsplash.com/photo-1595856619767-ab951ca3b8bf",
     supplier: "Pro Ekipman A.Ş.",
     description: "Dayanıklı servis tepsileri seti, her türlü etkinlik için uygundur.",
+    desi: 6,
     additionalImages: [
       "https://images.unsplash.com/photo-1595856619767-ab951ca3b8bf",
       "https://images.unsplash.com/photo-1595856619767-ab951ca3b8bg",
@@ -183,6 +193,7 @@ const products: Product[] = [
     image: "https://images.unsplash.com/photo-1581299894681-aa3f46faddd7",
     supplier: "Tekstil Tedarik A.Ş.",
     description: "Şık ve dayanıklı mutfak önlükleri seti.",
+    desi: 1,
     additionalImages: [
       "https://images.unsplash.com/photo-1581299894681-aa3f46faddd7",
       "https://images.unsplash.com/photo-1581299894681-aa3f46faddd8",
@@ -217,10 +228,12 @@ const ProductCatalog = () => {
 
   const cartTotalQuantity = cart.reduce((total, item) => total + item.quantity, 0);
   
-  const calculateShippingCost = (totalQuantity: number): number => {
-    const desiRate = 50;
-    const desiPerItem = 5; 
-    const totalDesi = Math.ceil((totalQuantity * desiPerItem) / 5);
+  const calculateShippingCost = (cart: Array<{ product: Product; quantity: number }>): number => {
+    const totalDesi = cart.reduce((total, item) => {
+      return total + (item.product.desi * item.quantity);
+    }, 0);
+    
+    const desiRate = 50; // Her desi için 50 TL
     return totalDesi * desiRate;
   };
 
@@ -278,7 +291,7 @@ const ProductCatalog = () => {
         updateCartQuantity={updateCartQuantity}
         removeFromCart={removeFromCart}
         cartTotal={cartTotal}
-        calculateShippingCost={calculateShippingCost}
+        calculateShippingCost={(totalQuantity: number) => calculateShippingCost(cart)}
         billingInfo={billingInfo}
         setBillingInfo={setBillingInfo}
         setShowPayment={setShowPayment}
