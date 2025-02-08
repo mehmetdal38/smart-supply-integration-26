@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -671,9 +670,6 @@ const ProductCatalog = () => {
                 <DialogContent className="max-w-3xl">
                   <DialogHeader>
                     <DialogTitle>{product.name}</DialogTitle>
-                    <DialogDescription>
-                      {product.description || "Ürün açıklaması bulunmamaktadır."}
-                    </DialogDescription>
                   </DialogHeader>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-4">
@@ -740,6 +736,12 @@ const ProductCatalog = () => {
                           <ShoppingCart className="h-4 w-4 mr-2" />
                           Sepete Ekle
                         </Button>
+                        <div className="mt-4">
+                          <h3 className="font-semibold mb-2">Ürün Açıklaması</h3>
+                          <p className="text-sm text-gray-600">
+                            {product.description || "Ürün açıklaması bulunmamaktadır."}
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
