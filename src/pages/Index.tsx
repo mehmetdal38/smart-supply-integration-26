@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -655,7 +656,7 @@ const ProductCatalog = () => {
                       <img
                         src={product.image}
                         alt={product.name}
-                        className="absolute inset-0 w-full h-full object-cover"
+                        className="absolute inset-0 w-full h-full object-cover rounded-t-lg"
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
                           target.src = "https://www.tacev.com/image/cache/catalog/image/cache/catalog/TENCERELER/tt-1508_dekube-1200x1200.webp";
@@ -681,6 +682,10 @@ const ProductCatalog = () => {
                           src={product.image}
                           alt={product.name}
                           className="absolute inset-0 w-full h-full object-cover"
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.src = "https://www.tacev.com/image/cache/catalog/image/cache/catalog/TENCERELER/tt-1508_dekube-1200x1200.webp";
+                          }}
                         />
                       </div>
                       <div className="grid grid-cols-3 gap-2">
@@ -690,6 +695,10 @@ const ProductCatalog = () => {
                               src={img}
                               alt={`${product.name} ${index + 1}`}
                               className="absolute inset-0 w-full h-full object-cover"
+                              onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                target.src = "https://www.tacev.com/image/cache/catalog/image/cache/catalog/TENCERELER/tt-1508_dekube-1200x1200.webp";
+                              }}
                             />
                           </div>
                         ))}
