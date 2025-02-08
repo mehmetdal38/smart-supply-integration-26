@@ -24,7 +24,7 @@ interface CartSheetProps {
   updateCartQuantity: (productId: number, newQuantity: number) => void;
   removeFromCart: (productId: number) => void;
   cartTotal: number;
-  calculateShippingCost: (totalQuantity: number) => void;
+  calculateShippingCost: (totalQuantity: number) => number;
   billingInfo: {
     name: string;
     taxId: string;
@@ -47,6 +47,8 @@ export const CartSheet = ({
   setBillingInfo,
   setShowPayment,
 }: CartSheetProps) => {
+  const shippingCost = calculateShippingCost(cartTotalQuantity);
+  
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -109,11 +111,11 @@ export const CartSheet = ({
                 </div>
                 <div className="flex justify-between text-sm">
                   <span>Kargo Bedeli</span>
-                  <span>{calculateShippingCost(cartTotalQuantity)} TL</span>
+                  <span>{shippingCost} TL</span>
                 </div>
                 <div className="flex justify-between font-bold text-lg border-t pt-2">
                   <span>Toplam</span>
-                  <span>{cartTotal + calculateShippingCost(cartTotalQuantity)} TL</span>
+                  <span>{cartTotal + shippingCost} TL</span>
                 </div>
               </div>
               <Dialog>
