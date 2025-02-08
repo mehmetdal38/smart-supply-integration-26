@@ -2,6 +2,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import { MessageSquare, Plus, Minus, ShoppingCart } from "lucide-react";
 import {
   Dialog,
@@ -50,6 +51,9 @@ export const ProductCard = ({
         <DialogContent className="max-w-3xl">
           <DialogHeader>
             <DialogTitle>{product.name}</DialogTitle>
+            <DialogDescription>
+              Ürün detaylarını inceleyin ve sepete ekleyin
+            </DialogDescription>
           </DialogHeader>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-4">
