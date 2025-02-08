@@ -50,7 +50,7 @@ const Support = () => {
           Yardım
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-4xl max-h-[80vh]">
+      <DialogContent className="w-full h-full sm:h-auto sm:max-w-4xl sm:max-h-[80vh]">
         <DialogHeader>
           <DialogTitle>Yardım Merkezi</DialogTitle>
         </DialogHeader>
@@ -60,7 +60,7 @@ const Support = () => {
             <TabsTrigger value="guides">Kullanım Kılavuzları</TabsTrigger>
             <TabsTrigger value="support">Destek Talebi</TabsTrigger>
           </TabsList>
-          <ScrollArea className="h-[500px] mt-4">
+          <ScrollArea className="h-[calc(100vh-250px)] sm:h-[500px] mt-4">
             <TabsContent value="faq">
               <Accordion type="single" collapsible>
                 {faqData.map((item, index) => (

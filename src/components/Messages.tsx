@@ -93,13 +93,13 @@ const Messages = () => {
           Mesajlar
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-4xl max-h-[80vh]">
+      <DialogContent className="w-full h-full sm:h-auto sm:max-w-4xl sm:max-h-[80vh]">
         <DialogHeader>
           <DialogTitle>Mesajlarım</DialogTitle>
           <DialogDescription>Tedarikçilerle olan mesajlaşmalarınız</DialogDescription>
         </DialogHeader>
-        <div className="flex h-[500px] gap-4">
-          <div className="w-1/3 border-r pr-4">
+        <div className="flex flex-col sm:flex-row h-[calc(100vh-200px)] sm:h-[500px] gap-4">
+          <div className="w-full sm:w-1/3 border-b sm:border-b-0 sm:border-r pr-4">
             <ScrollArea className="h-full">
               {messages.map((message, index) => (
                 <div

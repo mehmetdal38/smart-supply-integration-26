@@ -53,7 +53,7 @@ const PastOrders = () => {
           Geçmiş Siparişler
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+      <DialogContent className="w-full h-full sm:h-auto sm:max-w-4xl sm:max-h-[80vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Geçmiş Siparişlerim</DialogTitle>
         </DialogHeader>

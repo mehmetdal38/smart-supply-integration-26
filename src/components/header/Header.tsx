@@ -13,7 +13,7 @@ interface HeaderProps {
   updateCartQuantity: (productId: number, newQuantity: number) => void;
   removeFromCart: (productId: number) => void;
   cartTotal: number;
-  calculateShippingCost: (totalQuantity: number) => void;
+  calculateShippingCost: (totalQuantity: number) => number;
   billingInfo: {
     name: string;
     taxId: string;
@@ -57,7 +57,7 @@ export const Header = ({
                   <DialogTrigger asChild>
                     <MessageCircle className="h-6 w-6 cursor-pointer" />
                   </DialogTrigger>
-                  <DialogContent className="max-w-4xl max-h-[80vh]">
+                  <DialogContent className="w-full h-full sm:h-auto sm:max-w-4xl sm:max-h-[80vh]">
                     <DialogHeader>
                       <DialogTitle>Mesajlarım</DialogTitle>
                     </DialogHeader>
@@ -69,7 +69,7 @@ export const Header = ({
                   <DialogTrigger asChild>
                     <Clock className="h-6 w-6 cursor-pointer" />
                   </DialogTrigger>
-                  <DialogContent className="max-w-4xl max-h-[80vh]">
+                  <DialogContent className="w-full h-full sm:h-auto sm:max-w-4xl sm:max-h-[80vh]">
                     <DialogHeader>
                       <DialogTitle>Geçmiş Siparişlerim</DialogTitle>
                     </DialogHeader>
@@ -81,7 +81,7 @@ export const Header = ({
                   <DialogTrigger asChild>
                     <HelpCircle className="h-6 w-6 cursor-pointer" />
                   </DialogTrigger>
-                  <DialogContent className="max-w-4xl max-h-[80vh]">
+                  <DialogContent className="w-full h-full sm:h-auto sm:max-w-4xl sm:max-h-[80vh]">
                     <DialogHeader>
                       <DialogTitle>Yardım Merkezi</DialogTitle>
                     </DialogHeader>
