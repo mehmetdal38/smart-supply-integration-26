@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -215,7 +216,8 @@ const ProductCatalog = () => {
   });
 
   const cartTotalQuantity = cart.reduce((total, item) => total + item.quantity, 0);
-  const calculateShippingCost = (totalQuantity: number) => {
+  
+  const calculateShippingCost = (totalQuantity: number): number => {
     const desiRate = 50;
     const desiPerItem = 5; 
     const totalDesi = Math.ceil((totalQuantity * desiPerItem) / 5);
