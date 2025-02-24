@@ -1,11 +1,9 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Search, Filter } from "lucide-react";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { Search, Filter, ShoppingCart } from "lucide-react";
 import { Product } from "@/types/product";
 import { ProductCard } from "@/components/product/ProductCard";
-import { Header } from "@/components/header/Header";
 
 const products: Product[] = [
   {
@@ -206,17 +204,7 @@ const ProductCatalog = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [cart, setCart] = useState<{ product: Product; quantity: number }[]>([]);
-  const [showPayment, setShowPayment] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState<"credit-card">("credit-card");
-  const [billingInfo, setBillingInfo] = useState({
-    name: "",
-    taxId: "",
-    address: "",
-    city: "",
-    phone: ""
-  });
   const [quantities, setQuantities] = useState<{ [key: number]: number }>({});
-  const isMobile = useIsMobile();
 
   const categories = Array.from(new Set(products.map(product => product.category)));
 
@@ -227,15 +215,6 @@ const ProductCatalog = () => {
   });
 
   const cartTotalQuantity = cart.reduce((total, item) => total + item.quantity, 0);
-  
-  const calculateShippingCost = (cart: Array<{ product: Product; quantity: number }>): number => {
-    const totalDesi = cart.reduce((total, item) => {
-      return total + (item.product.desi * item.quantity);
-    }, 0);
-    
-    const desiRate = 50; // Her desi için 50 TL
-    return totalDesi * desiRate;
-  };
 
   const addToCart = (product: Product, quantity: number = 1) => {
     setCart(currentCart => {
@@ -263,40 +242,30 @@ const ProductCatalog = () => {
     );
   };
 
-  const removeFromCart = (productId: number) => {
-    setCart(currentCart => currentCart.filter(item => item.product.id !== productId));
-  };
-
-  const cartTotal = cart.reduce((total, item) => total + (item.product.price * item.quantity), 0);
-
-  const incrementQuantity = (productId: number) => {
-    setQuantities(prev => ({
-      ...prev,
-      [productId]: (prev[productId] || 1) + 1
-    }));
-  };
-
-  const decrementQuantity = (productId: number) => {
-    setQuantities(prev => ({
-      ...prev,
-      [productId]: Math.max(1, (prev[productId] || 1) - 1)
-    }));
-  };
-
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header 
-        cart={cart}
-        cartTotalQuantity={cartTotalQuantity}
-        updateCartQuantity={updateCartQuantity}
-        removeFromCart={removeFromCart}
-        cartTotal={cartTotal}
-        calculateShippingCost={(totalQuantity: number) => calculateShippingCost(cart)}
-        billingInfo={billingInfo}
-        setBillingInfo={setBillingInfo}
-        setShowPayment={setShowPayment}
-        isMobile={isMobile}
-      />
+      <div className="bg-white shadow">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex flex-col">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <img 
+                  src="https://s.tmimgcdn.com/scr/800x500/300400/yaratici-restoran-logo-tasarimi_300465-original.jpg" 
+                  alt="Logo" 
+                  className="h-12 w-auto object-contain" 
+                />
+                <h1 className="ml-4 text-2xl font-bold text-gray-900">Restoran Tedarik</h1>
+              </div>
+              <div className="flex items-center gap-2">
+                <ShoppingCart className="h-6 w-6" />
+                <span className="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm">
+                  {cartTotalQuantity}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col sm:flex-row gap-4 mb-6">
